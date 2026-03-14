@@ -18,10 +18,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
  */
 @OpenAPIDefinition(
         info = @Info(
-                title = "Books API",
+                title = "AbonementFitness API",
                 version = "1.0.0",
                 description = """
-                        REST API для управления каталогом книг и авторов.
+                        REST API для продления абонемента в фитнесс зале.
                         """
         ),
         servers = {

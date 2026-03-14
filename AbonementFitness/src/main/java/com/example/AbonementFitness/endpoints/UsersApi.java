@@ -35,8 +35,8 @@ public interface UsersApi {
             summary = "Получить пользователя по ID",
             security = @SecurityRequirement(name = AbonementFitnessApiContract.SECURITY_SCHEME_BEARER)
     )
-    @ApiResponse(responseCode = "200", description = "Книга найдена")
-    @ApiResponse(responseCode = "404", description = "Книга не найдена",
+    @ApiResponse(responseCode = "200", description = "Пользователь найден")
+    @ApiResponse(responseCode = "404", description = "Пользователь не найден",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @GetMapping("/{id}")
     EntityModel<UserResponse> getUserById(
@@ -52,7 +52,7 @@ public interface UsersApi {
                     """,
             security = @SecurityRequirement(name = AbonementFitnessApiContract.SECURITY_SCHEME_BEARER)
     )
-    @ApiResponse(responseCode = "200", description = "Постраничный список книг")
+    @ApiResponse(responseCode = "200", description = "Постраничный список пользователей")
     @GetMapping
     PagedModel<EntityModel<UserResponse>> getAllUsers(
             @Parameter(description = "Фильтр по ID пользователя") @RequestParam(required = false) Long userId,
@@ -71,8 +71,6 @@ public interface UsersApi {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @ApiResponse(responseCode = "404", description = "Пользователь указанным userId не найден",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    @ApiResponse(responseCode = "409", description = "Пользователь с таким ISBN уже существует",
-            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     ResponseEntity<EntityModel<UserResponse>> createUser(@Valid @RequestBody UserRequest request);
@@ -86,9 +84,7 @@ public interface UsersApi {
     @ApiResponse(responseCode = "200", description = "Пользователь обновлен")
     @ApiResponse(responseCode = "400", description = "Ошибка валидации",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    @ApiResponse(responseCode = "404", description = "Пользователь не найдена",
-            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    @ApiResponse(responseCode = "409", description = "Пользователь с таким ISBN уже существует",
+    @ApiResponse(responseCode = "404", description = "Пользователь не найден",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     EntityModel<UserResponse> updateUser(
@@ -108,8 +104,6 @@ public interface UsersApi {
     @ApiResponse(responseCode = "400", description = "Ошибка валидации",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @ApiResponse(responseCode = "404", description = "Пользователь не найден",
-            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    @ApiResponse(responseCode = "409", description = "Пользователь с таким ISBN уже существует",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     EntityModel<UserResponse> patchUser(

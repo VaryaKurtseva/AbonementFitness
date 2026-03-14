@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * DTO для создания или полного обновления пользователя (POST / PUT).
  * Все обязательные поля должны присутствовать.
  */
-@Schema(description = "Запрос на создание или полное обновление пользователя")
+@Schema(description = "Запрос на создание пользователя")
 public record UserRequest(
 
         @Schema(description = "Имя пользователя", example = "Лев", requiredMode = Schema.RequiredMode.REQUIRED)
