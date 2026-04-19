@@ -2,6 +2,7 @@ package com.example.AbonementFitness.dto;
 
 
 
+import com.example.AbonementFitness.validation.ValidVisitsHall;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
@@ -36,6 +37,7 @@ public record PatchUserRequest(
         @Schema(description = "Дата окончания абонемента", example = "2026-03-03")
         LocalDate endOfSubscription,
         @Schema(description = "Количество посещений зала", example = "40")
+        @ValidVisitsHall
         Integer visitsHall,
         @Schema(description = "Номер телефона", example = "+79262533595")
         @Size(min = 11, max = 12, message = "Номер телефона должен содержать 11-12 символов")

@@ -2,7 +2,7 @@ package edu.rutmiit.demo.demorest.graphql.fetcher;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
-import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
+import graphql.schema.DataFetchingEnvironment;
 import edu.rutmiit.demo.booksapicontract.dto.AuthorResponse;
 import edu.rutmiit.demo.booksapicontract.dto.BookResponse;
 import edu.rutmiit.demo.demorest.service.AuthorService;
@@ -47,7 +47,7 @@ public class BookAuthorDataFetcher {
      * вызов к базе данных или внешнему сервису.
      */
     @DgsData(parentType = "Book", field = "author")
-    public AuthorResponse author(DgsDataFetchingEnvironment dfe) {
+    public AuthorResponse author(DataFetchingEnvironment dfe) {
         BookResponse book = dfe.getSource();
 
         // Если автор уже вложен в BookResponse, возвращаем его напрямую.

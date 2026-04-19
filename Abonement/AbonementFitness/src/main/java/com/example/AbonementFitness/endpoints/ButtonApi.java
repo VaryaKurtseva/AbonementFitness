@@ -1,7 +1,8 @@
 package com.example.AbonementFitness.endpoints;
 
-import com.example.AbonementFitness.config.AbonementFitnessApiContract;
+
 import com.example.AbonementFitness.dto.*;
+import com.example.AbonementFitness.config.AbonementFitnessApiContract;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +22,23 @@ import org.springframework.web.bind.annotation.*;
         value = "/api/button",
         produces = MediaType.APPLICATION_JSON_VALUE
 )
-public interface ButtonRenewApi {
+public interface ButtonApi {
+    @Operation(
+            summary = "Список кнопок",
+            description = """
+                    Возвращает постраничный список пользователей с HATEOAS-ссылками.
+                    Поддерживает комбинирование фильтров: userId,name и surname
+                    можно передавать одновременно.
+                    """,
+            security = @SecurityRequirement(name = AbonementFitnessApiContract.SECURITY_SCHEME_BEARER)
+    )
+    @ApiResponse(responseCode = "200", description = "Постраничный список пользователей")
+    @GetMapping
+    PagedModel<EntityModel<ButtonResponse>> getAllButtons(
+            @Parameter(description = "Фильтр по ID user") @RequestParam(required = false) Long userId,
+            @Parameter(description = "Номер страницы (0..N)", example = "0") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Размер страницы", example = "20") @RequestParam(defaultValue = "20") int size
+    );
 
 
 
@@ -40,7 +57,7 @@ public interface ButtonRenewApi {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping(value = "/renew",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    ResponseEntity<EntityModel<ButtonRenewResponse>>  renewSubscription(@Valid @RequestBody ButtonRenewSubscriptionRequest request);
+    ResponseEntity<EntityModel<ButtonResponse>> renewSubscription(@Valid @RequestBody ButtonRequest request);
     @Operation(
             summary = "Ответ от системы, после того, как пользователь нажал на кнопку",
             security = @SecurityRequirement(name = AbonementFitnessApiContract.SECURITY_SCHEME_BEARER)
@@ -51,7 +68,7 @@ public interface ButtonRenewApi {
     @ApiResponse(responseCode = "404", description = "Пользователь с указанным Именем и Фамилией не найден",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @GetMapping("/{requestId}")
-    ResponseEntity<EntityModel<ButtonRenewResponse>>  buttonRenewResponse(
+    ResponseEntity<EntityModel<ButtonResponse>>  buttonRenewResponse(
             @Parameter(description = "ID запроса", required = true, example = "1")
             @PathVariable Long requestId);
 
@@ -67,9 +84,9 @@ public interface ButtonRenewApi {
     @ApiResponse(responseCode = "404", description = "Кнопка не найден",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    EntityModel<ButtonRenewResponse> updateButton(
+    EntityModel<ButtonResponse> updateButton(
             @Parameter(description = "ID пользователя", required = true, example = "1") @PathVariable Long id,
-            @Valid @RequestBody ButtonRenewSubscriptionRequest request
+            @Valid @RequestBody ButtonRequest request
     );
 
     @Operation(
@@ -86,7 +103,7 @@ public interface ButtonRenewApi {
     @ApiResponse(responseCode = "404", description = "Кнопка не найден",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    EntityModel<ButtonRenewResponse> patchButton(
+    EntityModel<ButtonResponse> patchButton(
             @Parameter(description = "ID пользователя", required = true, example = "1") @PathVariable Long id,
             @Valid @RequestBody PatchButtonRequest request
     );

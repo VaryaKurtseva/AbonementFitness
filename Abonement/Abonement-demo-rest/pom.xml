@@ -17,9 +17,11 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dgs.version>8.2.0</dgs.version>
 	</properties>
 
 	<dependencies>
+		<!-- Spring Boot Starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -34,20 +36,21 @@
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
 		</dependency>
 
+		<!-- Swagger/OpenAPI -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.5.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>com.example.AbonementFitness</groupId>
@@ -59,7 +62,32 @@
 			<groupId>jakarta.annotation</groupId>
 			<artifactId>jakarta.annotation-api</artifactId>
 		</dependency>
+
+		<!-- Netflix DGS — стартер для GraphQL -->
+		<dependency>
+			<groupId>com.netflix.graphql.dgs</groupId>
+			<artifactId>graphql-dgs-spring-boot-starter</artifactId>
+			<version>${dgs.version}</version>
+		</dependency>
+		<!-- Расширенные скаляры GraphQL (DateTime, Date) -->
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-extended-scalars</artifactId>
+			<version>21.0</version>
+		</dependency>
 	</dependencies>
+	<!-- Управление версиями DGS -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.netflix.graphql.dgs</groupId>
+				<artifactId>graphql-dgs-platform-dependencies</artifactId>
+				<version>${dgs.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

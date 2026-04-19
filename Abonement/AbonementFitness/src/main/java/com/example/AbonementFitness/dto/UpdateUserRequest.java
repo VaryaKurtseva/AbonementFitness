@@ -3,6 +3,7 @@ package com.example.AbonementFitness.dto;
 
 
 
+import com.example.AbonementFitness.validation.ValidVisitsHall;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
@@ -26,17 +27,19 @@ public record UpdateUserRequest(
         @NotBlank(message = "Фамилия пользователя не может быть пустым")
         @Size(max = 100, message = "Фамилия пользователя не может превышать 100 символов")
         String lastName,
+        @Schema(description = "Email пользователя", example = "tolstoy@example.com")
+        @Email(message = "Некорректный формат email")
+        @Size(max = 255, message = "Email не может превышать 255 символов")
+        String email,
 
         @Schema(description = "Дата активации абонемента")
         LocalDate subscriptionActivation,
-        @Schema(description = "Количество посещений ")
-        Integer visitsHall,
-
         @Schema(description = "Дата окончания абонемента")
         LocalDate endOfSubscription,
-        @Schema(description = "Email пользователя", example = "user@example.com")
-        @Email(message = "Некорректный формат email")
-        String email,
+        @Schema(description = "Количество посещений ")
+        @ValidVisitsHall
+        Integer visitsHall,
+
 
         @Schema(description = "Номер телефона", example = "+79262533595")
         @Size(min = 11, max = 12, message = "Номер телефона должен содержать 11-12 символов")

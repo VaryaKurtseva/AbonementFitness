@@ -114,7 +114,7 @@ public class UserService {
         
     }
 
-    public void newAbonement(Long id, ButtonRenewResponse patchButton) {
+    public void newAbonement(Long id, ButtonResponse patchButton) {
     }
 
 

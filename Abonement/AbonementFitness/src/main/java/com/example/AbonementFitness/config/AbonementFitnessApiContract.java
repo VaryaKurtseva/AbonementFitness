@@ -25,10 +25,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         """
         ),
         servers = {
-                @Server(url = "http://localhost:8080", description = "Local development")
+                @Server(url = "http://localhost:8088", description = "Local development")
         })
 @SecurityScheme(
-        name = AbonementFitnessApiContract.SECURITY_SCHEME_BEARER,
+        name = "bearerAuth",
         type = SecuritySchemeType.HTTP,
         scheme = "bearer",
         bearerFormat = "JWT",

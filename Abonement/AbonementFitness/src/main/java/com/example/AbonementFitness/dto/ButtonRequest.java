@@ -1,19 +1,22 @@
 package com.example.AbonementFitness.dto;
 
+
 import com.example.AbonementFitness.validation.NoActiveSubscription;
+import com.example.AbonementFitness.validation.ValidVisitsHall;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 @Schema(description = "Пользователь нажимает на кнопку, для продления абонемента")
-public record ButtonRenewSubscriptionRequest(
+public record ButtonRequest(
         @Schema(description = "ID пользователя", example = "1")
         @NotNull(message = "ID пользователя обязателен")
-        @NoActiveSubscription
+                @NoActiveSubscription
         Long userId,
 
         @Schema(description = "ID запроса", example = "12345")
+        @NotNull(message = "ID запроса обязателен")
         Long requestId,
 
         @Schema(description = "Причина отказа (если есть)")
@@ -25,6 +28,7 @@ public record ButtonRenewSubscriptionRequest(
     @Min(value = 1, message = "Минимум 1 месяц")
     Integer value,
     @Schema(description = "Сколько посещений")
+            @ValidVisitsHall
     Integer visitsHall,
 
     @Schema(description = "Дата активации абонемента", example = "2026-01-03")

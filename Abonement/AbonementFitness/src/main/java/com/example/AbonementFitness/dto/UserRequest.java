@@ -1,6 +1,7 @@
 package com.example.AbonementFitness.dto;
 
 
+
 import com.example.AbonementFitness.validation.ValidVisitsHall;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
@@ -35,6 +36,7 @@ public record UserRequest(
         LocalDate endOfSubscription,
         @Schema(description = "Общее количество посещений зала", example = "3")
         @ValidVisitsHall
+
         Integer visitsHall,
         @Schema(description = "Номер телефона", example = "+79262533595")
         @NotBlank(message = "Номер телефона не может быть пустым")

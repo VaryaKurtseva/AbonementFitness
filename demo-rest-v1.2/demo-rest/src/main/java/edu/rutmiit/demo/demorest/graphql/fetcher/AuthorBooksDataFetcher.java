@@ -2,7 +2,7 @@ package edu.rutmiit.demo.demorest.graphql.fetcher;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
-import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
+import graphql.schema.DataFetchingEnvironment;
 import com.netflix.graphql.dgs.InputArgument;
 import edu.rutmiit.demo.booksapicontract.dto.AuthorResponse;
 import edu.rutmiit.demo.booksapicontract.dto.BookResponse;
@@ -48,7 +48,7 @@ public class AuthorBooksDataFetcher {
      */
     @DgsData(parentType = "Author", field = "books")
     public BookConnectionGql books(
-            DgsDataFetchingEnvironment dfe,
+            DataFetchingEnvironment dfe,
             @InputArgument Integer page,
             @InputArgument Integer size) {
 

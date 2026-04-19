@@ -1,11 +1,10 @@
 package com.example.AbonementFitness.dto;
 
-import com.example.AbonementFitness.validation.NoActiveSubscription;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +18,7 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Relation(collectionRelation = "button", itemRelation = "button")
 @Schema(description = "Результат запроса на продление абонемента")
-public class ButtonRenewResponse {
+public class ButtonResponse {
     @Schema(description = "ID пользователя", example = "1")
     Long userId;
     @Schema(description = "ID запроса", example = "12345")

@@ -1,0 +1,185 @@
+# =============================================================================
+# GraphQL-контракт для Abonement API
+#
+# Эта схема описывает все доступные запросы (Query), мутации (Mutation) и типы.
+# По функциональности она полностью соответствует REST API: те же сущности,
+# те же операции (CRUD), те же фильтры и пагинация.
+#
+# Преимущество GraphQL — клиент сам выбирает, какие поля ему нужны.
+# Вложенные связи (User → Button, Button → User) разрешаются автоматически.
+# =============================================================================
+
+# Пользовательские скалярные типы для работы с датой и временем.
+# DGS преобразует их в java.time.LocalDateTime и java.time.LocalDate.
+scalar DateTime
+scalar Date
+
+# ---------------------------------------------------------------------------
+# Основные типы данных
+# ---------------------------------------------------------------------------
+
+# User пользователь — содержит биографическую информацию и список пользователей.
+type User {
+    firstName: String!
+    lastName: String!
+    email: String
+    subscriptionActivation: Date
+    endOfSubscription: Date
+    visitsHall: Int
+    numberPhone: String!
+
+    # Связь «один ко многим»: кнопки данного пользователя с пагинацией.
+    # Резолвер загружает кнопки только если клиент запросил это поле.
+    buttons(page: Int = 0, size: Int = 20): ButtonConnection!
+}
+
+# Кнопка — основная сущность каталога.
+type Button {
+    userId: ID!
+    requestId: ID!
+    rejectionReason: String
+    process: String
+    value: Int
+    visitsHall: Int
+    subscriptionActivation: Date
+    endOfSubscription: Date
+
+
+    # Связь «многие к одному»: пользователь кнопки.
+    # Резолвер загружает кнопку только если клиент запросил это поле.
+    user: User!
+
+}
+
+
+
+# ---------------------------------------------------------------------------
+# Типы для пагинации
+# ---------------------------------------------------------------------------
+
+# Постраничная коллекция кнопок.
+type ButtonConnection {
+    content: [Button!]!
+    pageInfo: PageInfo!
+    totalElements: Int!
+}
+
+# Постраничная коллекция пользователей.
+type UserConnection {
+    content: [User!]!
+    pageInfo: PageInfo!
+    totalElements: Int!
+}
+
+# Метаданные страницы — номер, размер, общее число страниц.
+type PageInfo {
+    pageNumber: Int!
+    pageSize: Int!
+    totalPages: Int!
+    last: Boolean!
+}
+
+# ---------------------------------------------------------------------------
+# Входные типы для мутаций
+# ---------------------------------------------------------------------------
+
+# Создание новой кнопки. Все обязательные поля совпадают с REST ButtonRenewSubscriptionRequest.
+input CreateButtonInput {
+    userId: ID!
+    requestId: ID!
+    rejectionReason: String
+    process: String
+    value: Int
+    visitsHall: Int
+    subscriptionActivation: Date
+    endOfSubscription: Date
+
+}
+
+
+# Полное обновление кнопки. Пользователя изменить нельзя (как и в REST PUT).
+input UpdateButtonInput {
+    visitsHall: Int!
+    value: Int!
+    subscriptionActivation: Date!
+    endOfSubscription: Date!
+}
+
+# Создание или полное обновление user.
+input CreateUserInput {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    fullName: String!
+    email: String
+    subscriptionActivation: Date
+    endOfSubscription: Date
+    visitsHall: Int
+    numberPhone: String!
+}
+
+# Полное обновление автора — все поля как при создании.
+input UpdateUserInput {
+    firstName: String!
+    lastName: String!
+    fullName: String!
+    email: String
+    subscriptionActivation: Date
+    endOfSubscription: Date
+    visitsHall: Int
+    numberPhone: String!
+}
+
+# Фильтрация кнопок — аналог query-параметров в REST GET /api/books.
+input ButtonFilter {
+    userId: ID
+    rejectionReason: String
+    visitsHall: Int
+
+}
+input UserFilter {
+    firstName: String
+    lastName: String
+}
+
+# ---------------------------------------------------------------------------
+# Корневые точки входа: запросы и мутации
+# ---------------------------------------------------------------------------
+
+type Query {
+    # Получить кнопку по идентификатору. Возвращает null если не найдена.
+    button(requestId: ID!): Button
+
+
+    # Список button с фильтрацией и пагинацией.
+    buttons(filter: ButtonFilter, page: Int = 0, size: Int = 20): ButtonConnection!
+
+    # Получить user по идентификатору. Возвращает null если не найден.
+    user(userId: ID!): User
+
+    # Список user с пагинацией.
+    users(filter: UserFilter, page: Int = 0, size: Int = 20): UserConnection!
+
+
+}
+
+type Mutation {
+    # Создать button. User с указанным userId должен существовать.
+    createButton(input: CreateButtonInput!): Button!
+
+    # Полностью обновить button. User изменить нельзя.
+    updateButton(requestId: ID!, input: UpdateButtonInput!): Button!
+
+    # Удалить button. Возвращает true при успехе.
+    deleteButton(requestId: ID!): Boolean!
+
+    # Создать user.
+    createUser(input: CreateUserInput!): User!
+
+    # Полностью обновить user.
+    updateUser(id: ID!, input: UpdateUserInput!): User!
+
+    # Удалить user и все его buttons (каскадно). Возвращает true при успехе.
+    deleteUser(id: ID!): Boolean!
+
+}
