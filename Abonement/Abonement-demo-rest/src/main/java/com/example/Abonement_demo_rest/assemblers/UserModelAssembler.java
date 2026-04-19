@@ -16,7 +16,7 @@ public class UserModelAssembler implements RepresentationModelAssembler<UserResp
     public EntityModel<UserResponse> toModel(UserResponse user) {
         return EntityModel.of(user,
         linkTo(methodOn(UserController.class).getUserById(user.getId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).getAllUsers(user.getId(), user.getFirstName(), user.getLastName(), 0,20)).withRel("collection"),
+                linkTo(methodOn(UserController.class).getAllUsers(user.getFirstName(), user.getLastName(), 0,20)).withRel("collection"),
                 linkTo(methodOn(UserController.class).updateUser(user.getId(), null)).withRel("update"),
                 linkTo(methodOn(UserController.class).getUserByName(user.getFullName(), 0,10)).withRel("searchByName")
         );

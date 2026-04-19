@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ButtonController implements ButtonRenewApi {
     private final ButtonService buttonService;
     private final ButtonAssembler buttonAssembler;
-    private final PagedResourcesAssembler<ButtonRenewResponse> pagedResourcesAssembler;
 
-    public ButtonController(ButtonService buttonService, ButtonAssembler buttonAssembler, PagedResourcesAssembler<ButtonRenewResponse> pagedResourcesAssembler) {
+
+    public ButtonController(ButtonService buttonService, ButtonAssembler buttonAssembler) {
         this.buttonService = buttonService;
         this.buttonAssembler = buttonAssembler;
-        this.pagedResourcesAssembler = pagedResourcesAssembler;
+
     }
 
 

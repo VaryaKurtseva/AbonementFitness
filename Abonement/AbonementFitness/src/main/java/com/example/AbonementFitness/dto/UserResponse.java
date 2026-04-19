@@ -52,7 +52,7 @@ public class UserResponse extends RepresentationModel<UserResponse> {
     @Schema(description = "Общее количество посещений зала", example = "3")
     private final Integer visitsHall;
     @Schema(description = "Номер телефона", example = "+79262533595")
-    String numberPhone;
+    private final String numberPhone;
 
     public UserResponse(Long id, String firstName, String lastName, String fullName, String email, LocalDate subscriptionActivation, LocalDate endOfSubscription, Integer visitsHall, String numberPhone) {
         this.id = id;

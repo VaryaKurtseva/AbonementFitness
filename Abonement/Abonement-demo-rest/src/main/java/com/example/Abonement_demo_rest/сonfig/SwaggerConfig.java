@@ -1,4 +1,4 @@
-package com.example.Abonement_demo_rest.config;
+package com.example.Abonement_demo_rest.сonfig;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

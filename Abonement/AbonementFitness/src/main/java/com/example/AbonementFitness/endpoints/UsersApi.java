@@ -55,7 +55,6 @@ public interface UsersApi {
     @ApiResponse(responseCode = "200", description = "Постраничный список пользователей")
     @GetMapping
     PagedModel<EntityModel<UserResponse>> getAllUsers(
-            @Parameter(description = "Фильтр по ID пользователя") @RequestParam(required = false) Long userId,
             @Parameter(description = "Фильтр по имени", example = "Варвара") @RequestParam(required = false) String name,
             @Parameter(description = "Фильтр по фамили", example = "Курцева") @RequestParam(required = false) String surname,
             @Parameter(description = "Номер страницы (0..N)", example = "0") @RequestParam(defaultValue = "0") int page,

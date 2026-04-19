@@ -21,8 +21,6 @@ import java.time.LocalDate;
 @Schema(description = "Результат запроса на продление абонемента")
 public class ButtonRenewResponse {
     @Schema(description = "ID пользователя", example = "1")
-    @NotNull(message = "ID пользователя обязателен")
-    @NoActiveSubscription
     Long userId;
     @Schema(description = "ID запроса", example = "12345")
     private final Long requestId;
