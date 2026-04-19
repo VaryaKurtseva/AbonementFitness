@@ -1,5 +1,6 @@
 package edu.rutmiit.demo.demorest.assemblers;
 
+import edu.rutmiit.demo.booksapicontract.dto.AuthorFilter;
 import edu.rutmiit.demo.booksapicontract.dto.AuthorResponse;
 import edu.rutmiit.demo.demorest.controllers.AuthorController;
 import edu.rutmiit.demo.demorest.controllers.BookController;
@@ -18,7 +19,7 @@ public class AuthorModelAssembler implements RepresentationModelAssembler<Author
         return EntityModel.of(author,
                 linkTo(methodOn(AuthorController.class).getAuthorById(author.getId())).withSelfRel(),
                 linkTo(methodOn(BookController.class).getAllBooks(author.getId(), null, null, null, 0, 20)).withRel("books"),
-                linkTo(methodOn(AuthorController.class).getAllAuthors(0, 20)).withRel("collection")
+                linkTo(methodOn(AuthorController.class).getAllAuthors(0, 20, null,null)).withRel("collection")
         );
     }
 }

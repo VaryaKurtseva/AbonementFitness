@@ -20,7 +20,8 @@ public class AuthorService {
         this.bookService = bookService;
     }
 
-    public PagedResponse<AuthorResponse> findAll(int page, int size) {
+    public PagedResponse<AuthorResponse> findAll(int page, int size, AuthorFilter filter) {
+
         List<AuthorResponse> all = storage.authors.values().stream()
                 .sorted(Comparator.comparingLong(AuthorResponse::getId))
                 .toList();

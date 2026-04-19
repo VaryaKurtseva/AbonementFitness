@@ -1,5 +1,6 @@
 package edu.rutmiit.demo.demorest.graphql.types;
 
+import edu.rutmiit.demo.booksapicontract.dto.AuthorFilter;
 import edu.rutmiit.demo.booksapicontract.dto.AuthorResponse;
 
 import java.util.List;

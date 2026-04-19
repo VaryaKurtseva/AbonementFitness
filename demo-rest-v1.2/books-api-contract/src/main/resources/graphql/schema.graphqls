@@ -34,6 +34,12 @@ type Author {
     # Резолвер загружает книги только если клиент запросил это поле.
     books(page: Int = 0, size: Int = 20): BookConnection!
 }
+type Review {
+    id: ID!
+    text: String!
+    rating: Int!
+    createdAt: DateTime!
+}
 
 # Книга — основная сущность каталога.
 type Book {
@@ -50,7 +56,11 @@ type Book {
     # Связь «многие к одному»: автор книги.
     # Резолвер загружает автора только если клиент запросил это поле.
     author: Author!
+    reviews: [Review!]!
+
 }
+
+
 
 # ---------------------------------------------------------------------------
 # Типы для пагинации
@@ -92,6 +102,11 @@ input CreateBookInput {
     publishedYear: Int
     language: String
 }
+input CreateReviewInput {
+    bookId: ID!
+    text: String!
+    rating: Int!
+}
 
 # Полное обновление книги. Автора изменить нельзя (как и в REST PUT).
 input UpdateBookInput {
@@ -130,6 +145,10 @@ input BookFilter {
     publishedYear: Int
     titleSearch: String
 }
+input AuthorFilter {
+    nationality: String
+    nameSearch: String
+}
 
 # ---------------------------------------------------------------------------
 # Корневые точки входа: запросы и мутации
@@ -138,6 +157,7 @@ input BookFilter {
 type Query {
     # Получить книгу по идентификатору. Возвращает null если не найдена.
     book(id: ID!): Book
+    reviews(bookId: ID!): [Review!]!
 
     # Список книг с фильтрацией и пагинацией.
     books(filter: BookFilter, page: Int = 0, size: Int = 20): BookConnection!
@@ -146,7 +166,9 @@ type Query {
     author(id: ID!): Author
 
     # Список авторов с пагинацией.
-    authors(page: Int = 0, size: Int = 20): AuthorConnection!
+    authors(filter: AuthorFilter, page: Int = 0, size: Int = 20): AuthorConnection!
+
+
 }
 
 type Mutation {
@@ -167,4 +189,5 @@ type Mutation {
 
     # Удалить автора и все его книги (каскадно). Возвращает true при успехе.
     deleteAuthor(id: ID!): Boolean!
+    createReview(input: CreateReviewInput!): Review!
 }

@@ -40,8 +40,9 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
-    public PagedModel<EntityModel<AuthorResponse>> getAllAuthors(int page, int size) {
-        PagedResponse<AuthorResponse> paged = authorService.findAll(page, size);
+    public PagedModel<EntityModel<AuthorResponse>> getAllAuthors(int page, int size,String nationality, String nameSearch) {
+        AuthorFilter filter = AuthorFilter.builder().nationality(nationality).nameSearch(nameSearch).build();
+        PagedResponse<AuthorResponse> paged = authorService.findAll(page, size, filter);
         Page<AuthorResponse> springPage = new PageImpl<>(
                 paged.content(),
                 PageRequest.of(paged.pageNumber(), paged.pageSize()),

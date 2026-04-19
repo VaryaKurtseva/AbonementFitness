@@ -40,7 +40,12 @@ public interface AuthorApi {
             @Parameter(description = "Номер страницы (0..N)", example = "0")
             @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Размер страницы", example = "20")
-            @RequestParam(defaultValue = "20") int size
+            @RequestParam(defaultValue = "20") int size,
+            @Parameter(description = "Фильтрация для автора по национальности", example = "Русский")
+            @RequestParam(defaultValue = "Русский") String nationality,
+            @Parameter(description = "Фильтрация для автора по полному имени", example = "Федор Достоевский")
+            @RequestParam(defaultValue = "Федор Достоевский") String nameSearch
+
     );
 
     @Operation(

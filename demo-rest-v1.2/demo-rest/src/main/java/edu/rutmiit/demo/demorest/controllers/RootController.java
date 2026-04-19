@@ -16,7 +16,7 @@ public class RootController {
     public RepresentationModel<?> getRoot() {
         RepresentationModel<?> rootModel = new RepresentationModel<>();
         rootModel.add(
-                linkTo(methodOn(AuthorController.class).getAllAuthors(0, 20)).withRel("authors"),
+                linkTo(methodOn(AuthorController.class).getAllAuthors(0, 20, null, null)).withRel("authors"),
                 linkTo(methodOn(BookController.class).getAllBooks(null, null, null, null, 0, 20)).withRel("books")
         );
         return rootModel;

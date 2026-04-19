@@ -4,6 +4,7 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
+import edu.rutmiit.demo.booksapicontract.dto.AuthorFilter;
 import edu.rutmiit.demo.booksapicontract.dto.AuthorRequest;
 import edu.rutmiit.demo.booksapicontract.dto.AuthorResponse;
 import edu.rutmiit.demo.booksapicontract.dto.PagedResponse;
@@ -46,13 +47,14 @@ public class AuthorDataFetcher {
      */
     @DgsQuery
     public AuthorConnectionGql authors(
+            @InputArgument AuthorFilter filter,
             @InputArgument Integer page,
             @InputArgument Integer size) {
 
         int pageNum = page != null ? page : 0;
         int pageSize = size != null ? size : 20;
 
-        PagedResponse<AuthorResponse> paged = authorService.findAll(pageNum, pageSize);
+        PagedResponse<AuthorResponse> paged = authorService.findAll(pageNum, pageSize, filter);
 
         return new AuthorConnectionGql(
                 paged.content(),
