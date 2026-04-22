@@ -1,11 +1,16 @@
 package com.example.Abonement_demo_rest.graphql.types;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
-public record UpdateButtonInputGql(
-        Integer visitsHall,
-        Integer value,
-        LocalDate subscriptionActivation,
-        LocalDate endOfSubscription
-) {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UpdateButtonInputGql {
+    private Integer visitsHall;
+    private Integer value;
+    private LocalDate subscriptionActivation;
+    private LocalDate endOfSubscription;
 }

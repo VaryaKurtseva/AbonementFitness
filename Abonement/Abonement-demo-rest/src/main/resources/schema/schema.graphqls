@@ -107,10 +107,10 @@ input UpdateButtonInput {
 
 # Создание или полное обновление user.
 input CreateUserInput {
-    id: ID!
+
     firstName: String!
     lastName: String!
-    fullName: String!
+
     email: String
     subscriptionActivation: Date
     endOfSubscription: Date
@@ -120,14 +120,13 @@ input CreateUserInput {
 
 # Полное обновление автора — все поля как при создании.
 input UpdateUserInput {
-    firstName: String!
-    lastName: String!
-    fullName: String!
+    firstName: String
+    lastName: String
     email: String
     subscriptionActivation: Date
     endOfSubscription: Date
     visitsHall: Int
-    numberPhone: String!
+    numberPhone: String
 }
 
 # Фильтрация кнопок — аналог query-параметров в REST GET /api/books.
@@ -165,7 +164,14 @@ type Query {
 
 type Mutation {
     # Создать button. User с указанным userId должен существовать.
-    createButton(input: CreateButtonInput!): Button!
+    createButton(
+            userId: ID!
+            requestId: ID!
+            value: Int
+            visitsHall: Int
+            subscriptionActivation: Date
+            endOfSubscription: Date
+        ): Button!
 
     # Полностью обновить button. User изменить нельзя.
     updateButton(requestId: ID!, input: UpdateButtonInput!): Button!

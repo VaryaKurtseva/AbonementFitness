@@ -9,7 +9,8 @@
     .\mvnw install
 
     # Запустить demo-rest - контракт соберётся автоматически
-    .\mvnw spring-boot:run -pl demo-rest -am
+    .\mvnw clean spring-boot:run -pl Abonement-demo-rest -am
+
 
     # Собрать только контракт (если менял только его)
     .\mvnw install -pl books-api-contract
