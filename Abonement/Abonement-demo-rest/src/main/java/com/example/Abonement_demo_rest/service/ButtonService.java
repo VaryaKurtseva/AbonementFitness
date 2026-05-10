@@ -1,6 +1,7 @@
 package com.example.Abonement_demo_rest.service;
 
 import com.example.AbonementFitness.dto.*;
+import com.example.Abonement_demo_rest.event.ButtonEventPublisher;;
 import com.example.Abonement_demo_rest.storage.InMemoryStorage;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import java.util.stream.Stream;
 public class ButtonService {
     private final InMemoryStorage storage;
     private final UserService userService;
+    private final ButtonEventPublisher eventPublisher;
 
-    public ButtonService(InMemoryStorage storage, @Lazy UserService userService) {
+    public ButtonService(InMemoryStorage storage, @Lazy UserService userService, ButtonEventPublisher eventPublisher) {
         this.storage = storage;
         this.userService = userService;
+        this.eventPublisher = eventPublisher;
     }
 
 
@@ -41,6 +44,7 @@ public class ButtonService {
                 .build();
         storage.button.put(id, patchButton);
         userService.newAbonement(id, patchButton);
+        eventPublisher.publishUpdated(patchButton);
         return patchButton;
     }
 
@@ -60,11 +64,14 @@ public class ButtonService {
                 .build();
         storage.button.put(id, updateButton);
         userService.newAbonement(id, updateButton);
+        eventPublisher.publishUpdated(updateButton);
         return updateButton;
     }
 
     public void delete(Long id) {
+        ButtonResponse buttonResponse = this.findButtonById(id);
         storage.button.remove(id);
+        eventPublisher.publishDeleted(buttonResponse);
     }
 
     public ButtonResponse proccessRenewal(ButtonRequest request) {
@@ -81,6 +88,7 @@ public class ButtonService {
                 .endOfSubscription(request.endOfSubscription())
                 .build();
         storage.button.put(renewal, buttonResponse);
+        eventPublisher.publishCreated(buttonResponse);
         return buttonResponse;
     }
 

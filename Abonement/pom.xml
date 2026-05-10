@@ -25,6 +25,9 @@
 <modules>
 	<module>AbonementFitness</module>
 	<module>Abonement-demo-rest</module>
+	<module>Abonement-events-contract</module>
+	<module>audit-service</module>
 </modules>
+
 
 </project>

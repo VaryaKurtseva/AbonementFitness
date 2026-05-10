@@ -1,6 +1,7 @@
 package com.example.Abonement_demo_rest.service;
 
 import com.example.AbonementFitness.dto.*;
+import com.example.Abonement_demo_rest.event.UserEventPublisher;
 import com.example.Abonement_demo_rest.storage.InMemoryStorage;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ import java.util.Optional;
 public class UserService {
     private final InMemoryStorage storage;
     private final ButtonService buttonService;
+    private final UserEventPublisher userEventPublisher;
 
-    public UserService(InMemoryStorage storage, @Lazy ButtonService buttonService) {
+    public UserService(InMemoryStorage storage, @Lazy ButtonService buttonService, UserEventPublisher userEventPublisher) {
         this.storage = storage;
         this.buttonService = buttonService;
+        this.userEventPublisher = userEventPublisher;
     }
     public PagedResponse<UserResponse> findAll(int page, int size) {
         List<UserResponse> all = storage.users.values().stream()
@@ -67,6 +70,7 @@ public class UserService {
                 .visitsHall(request.visitsHall())
                 .build();
         storage.users.put(id,user);
+        userEventPublisher.publishCreated(user);
         return user;
 
     }
@@ -86,6 +90,7 @@ public class UserService {
                 .visitsHall(request.visitsHall())
                 .build();
         storage.users.put(id,updateUser);
+        userEventPublisher.publishUpdated(updateUser);
         return updateUser;
     }
 
@@ -104,13 +109,22 @@ public class UserService {
                 .visitsHall(request.visitsHall() != null ? request.visitsHall() : existing.getVisitsHall())
                 .build();
         storage.users.put(id,updateUser);
+        userEventPublisher.publishUpdated(updateUser);
         return updateUser;
     }
 
     public void delete(Long id) {
         UserResponse existing = findById(id);
+        int count = 0;
+        List<ButtonResponse> buttonInStorage = storage.button.values().stream().toList();
+        for (ButtonResponse button : buttonInStorage) {
+            if (button.getUserId().equals(id)) {
+                count++;
+            }
+        }
         buttonService.deleteButtonByUser(id);
         storage.users.remove(id);
+        userEventPublisher.publishDeleted(existing.getId(), existing.getFirstName(), existing.getLastName(), count );
         
     }
 
