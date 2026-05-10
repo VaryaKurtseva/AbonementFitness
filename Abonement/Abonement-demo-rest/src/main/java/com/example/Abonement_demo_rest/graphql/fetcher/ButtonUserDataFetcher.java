@@ -15,7 +15,7 @@ public class ButtonUserDataFetcher {
     public ButtonUserDataFetcher(UserService userService) {
         this.userService = userService;
     }
-    @DgsData(parentType = "Button", field = "user")
+    @DgsData(parentType = "ButtonResponse", field = "user")
     public UserResponse user(DataFetchingEnvironment dfe) {
         ButtonResponse button = dfe.getSource();
 

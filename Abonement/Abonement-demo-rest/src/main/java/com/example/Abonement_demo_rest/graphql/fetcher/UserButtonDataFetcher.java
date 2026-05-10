@@ -39,7 +39,7 @@ public class UserButtonDataFetcher {
         this.buttonService = buttonService;
     }
 
-    @DgsData(parentType = "User", field = "buttons")
+    @DgsData(parentType = "UserResponse", field = "buttons")
     public ButtonConnectionGql buttons(
          DataFetchingEnvironment dfe,
          @InputArgument Integer page,

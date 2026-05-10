@@ -19,7 +19,7 @@ scalar Date
 # ---------------------------------------------------------------------------
 
 # User пользователь — содержит биографическую информацию и список пользователей.
-type User {
+type UserResponse {
     firstName: String!
     lastName: String!
     email: String
@@ -30,11 +30,11 @@ type User {
 
     # Связь «один ко многим»: кнопки данного пользователя с пагинацией.
     # Резолвер загружает кнопки только если клиент запросил это поле.
-    buttons(page: Int = 0, size: Int = 20): ButtonConnection!
+    buttons(page: Int = 0, size: Int = 20): ButtonConnectionGql!
 }
 
 # Кнопка — основная сущность каталога.
-type Button {
+type ButtonResponse {
     userId: ID!
     requestId: ID!
     rejectionReason: String
@@ -47,7 +47,7 @@ type Button {
 
     # Связь «многие к одному»: пользователь кнопки.
     # Резолвер загружает кнопку только если клиент запросил это поле.
-    user: User!
+    user: UserResponse!
 
 }
 
@@ -58,21 +58,21 @@ type Button {
 # ---------------------------------------------------------------------------
 
 # Постраничная коллекция кнопок.
-type ButtonConnection {
-    content: [Button!]!
-    pageInfo: PageInfo!
+type ButtonConnectionGql {
+    content: [ButtonResponse!]!
+    pageInfo: PageInfoGql!
     totalElements: Int!
 }
 
 # Постраничная коллекция пользователей.
-type UserConnection {
-    content: [User!]!
-    pageInfo: PageInfo!
+type UserConnectionGql {
+    content: [UserResponse!]!
+    pageInfo: PageInfoGql!
     totalElements: Int!
 }
 
 # Метаданные страницы — номер, размер, общее число страниц.
-type PageInfo {
+type PageInfoGql {
     pageNumber: Int!
     pageSize: Int!
     totalPages: Int!
@@ -147,17 +147,17 @@ input UserFilter {
 
 type Query {
     # Получить кнопку по идентификатору. Возвращает null если не найдена.
-    button(requestId: ID!): Button
+    button(requestId: ID!): ButtonResponse
 
 
     # Список button с фильтрацией и пагинацией.
-    buttons(filter: ButtonFilter, page: Int = 0, size: Int = 20): ButtonConnection!
+    buttons(filter: ButtonFilter, page: Int = 0, size: Int = 20): ButtonConnectionGql!
 
     # Получить user по идентификатору. Возвращает null если не найден.
-    user(userId: ID!): User
+    user(userId: ID!): UserResponse
 
     # Список user с пагинацией.
-    users(filter: UserFilter, page: Int = 0, size: Int = 20): UserConnection!
+    users(filter: UserFilter, page: Int = 0, size: Int = 20): UserConnectionGql!
 
 
 }
@@ -171,19 +171,19 @@ type Mutation {
             visitsHall: Int
             subscriptionActivation: Date
             endOfSubscription: Date
-        ): Button!
+        ): ButtonResponse!
 
     # Полностью обновить button. User изменить нельзя.
-    updateButton(requestId: ID!, input: UpdateButtonInput!): Button!
+    updateButton(requestId: ID!, input: UpdateButtonInput!): ButtonResponse!
 
     # Удалить button. Возвращает true при успехе.
     deleteButton(requestId: ID!): Boolean!
 
     # Создать user.
-    createUser(input: CreateUserInput!): User!
+    createUser(input: CreateUserInput!): UserResponse!
 
     # Полностью обновить user.
-    updateUser(id: ID!, input: UpdateUserInput!): User!
+    updateUser(id: ID!, input: UpdateUserInput!): UserResponse!
 
     # Удалить user и все его buttons (каскадно). Возвращает true при успехе.
     deleteUser(id: ID!): Boolean!

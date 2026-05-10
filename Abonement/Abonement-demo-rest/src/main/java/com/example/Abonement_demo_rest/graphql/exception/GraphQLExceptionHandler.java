@@ -51,19 +51,22 @@ public class GraphQLExceptionHandler implements DataFetcherExceptionHandler {
                     .path(handlerParameters.getPath())
                     .build();
         }
+        else {
+            error = TypedGraphQLError.newInternalErrorBuilder()
+                    .message("Внутренняя ошибка сервера")
+                    .path(handlerParameters.getPath())
+                    .build();
+
+
+        }
 
 
 
-        // Все остальные исключения — внутренняя ошибка сервера.
-        // Не раскрываем детали клиенту в целях безопасности.
-        var error1 = TypedGraphQLError.newInternalErrorBuilder()
-                .message("Внутренняя ошибка сервера")
-                .path(handlerParameters.getPath())
-                .build();
+
 
         return CompletableFuture.completedFuture(
                 DataFetcherExceptionHandlerResult.newResult()
-                        .error(error1)
+                        .error(error)
                         .build());
     }
 }

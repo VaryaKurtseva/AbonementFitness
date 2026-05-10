@@ -21,7 +21,7 @@ public class ButtonDataFetcher {
         this.buttonService = buttonService;
     }
 
-    // ========== QUERIES ==========
+
 
     @DgsQuery
     public ButtonResponse button(@InputArgument("requestId") String requestId) {
@@ -43,9 +43,7 @@ public class ButtonDataFetcher {
             @InputArgument LocalDate subscriptionActivation,
             @InputArgument LocalDate endOfSubscription
     ) {
-        System.out.println(">>> CREATE BUTTON CALLED!");
-        System.out.println(">>> userId: " + userId);
-        System.out.println(">>> requestId: " + requestId);
+
 
         try {
             ButtonRequest request = new ButtonRequest(

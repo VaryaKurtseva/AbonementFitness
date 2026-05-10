@@ -3,12 +3,10 @@ package com.example.AbonementFitness.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import java.time.LocalDate;
 
@@ -49,6 +47,7 @@ public class UserResponse extends RepresentationModel<UserResponse> {
     private final LocalDate  endOfSubscription;
 
 
+
     @Schema(description = "Общее количество посещений зала", example = "3")
     private final Integer visitsHall;
     @Schema(description = "Номер телефона", example = "+79262533595")
@@ -65,4 +64,5 @@ public class UserResponse extends RepresentationModel<UserResponse> {
         this.visitsHall = visitsHall;
         this.numberPhone = numberPhone;
     }
+
 }
