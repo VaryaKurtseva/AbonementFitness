@@ -10,7 +10,7 @@
         Используется теми, кто отправляет и получает события.
     -->
 
-    <groupId>abonement.demo.events</groupId>
+    <groupId>Abonement.demo.events</groupId>
     <artifactId>Abonement-events-contract</artifactId>
     <version>1.0</version>
     <name>Abonement-events-contract</name>

@@ -1,0 +1,54 @@
+// Контракт gRPC-сервиса аналитики пользователей
+//
+// Определяет сервис UserAnalytics с одним RPC-методом AnalyzeUser.
+// Из этого файла protoc + protoc-gen-grpc-java генерируют:
+// Классы сообщений - AnalyzeUserRequest, UserAnalysisResponse
+// Серверный базовый класс UserAnalyticsGrpc.UserAnalyticsImplBase
+// Клиентские стабы UserAnalyticsGrpc.UserAnalyticsBlockingStub
+
+syntax = "proto3";
+
+// Java-пакет для сгенерированных классов
+option java_package = "abonement.demo.grpc";
+
+// Все сгенерированные классы будут в отдельных файлах (не во вложенных классах)
+option java_multiple_files = true;
+
+// Пакет proto (для именования в других .proto файлах при импорте)
+package useranalytics;
+
+// Сервисы
+// Unary RPC - один запрос это один ответ (типа аналог REST GET/POST)
+service UserAnalytics {
+
+    // Анализирует книгу и возвращает вычисленные метрики
+    rpc AnalyzeUser (AnalyzeUserRequest) returns (UserAnalysisResponse);
+}
+
+// Сообщения
+// В proto3 все поля опциональны по умолчанию (zero-value = не задано).
+// Номера полей (1, 2, 3...) используются в бинарном формате —
+// они не должны меняться после релиза
+// чтобы не нарушить совместимость
+
+// Запрос на анализ user — данные, необходимые для вычисления метрик.
+message AnalyzeUserRequest {
+    int64  user_id        = 1;  // ID user в системе
+    string first_name          = 2;  // Имя
+    string last_name         = 3;  // Фамилия
+    string email = 4;  // Почта
+    string subscriptionActivation      = 5;  // Дата активации абонемента
+    string endOfSubscription    = 6;  // Дата окончания абонемента
+    int32 visitsHall = 7;  // Общее количество посещений зала
+    string numberPhone = 8; // Номер телефона
+}
+
+// Ответ с результатами анализа — вычисленные метрики user.
+message UserAnalysisResponse {
+    int64  user_id        = 1;  // ID user в системе
+
+        int32  estimated_activity_minutes = 2;   // Для пользователей активность
+        string fitness_level = 3;                 // BEGINNER, INTERMEDIATE, ADVANCED
+        double recommendation_score = 4;
+        string subscription_tier = 5;             // GOLD, SILVER, BRONZE
+}

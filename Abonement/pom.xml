@@ -15,7 +15,7 @@
     # Собрать только контракт (если менял только его)
     .\mvnw install -pl books-api-contract
 -->
-	<groupId>com.example.Abonement</groupId>
+	<groupId>Abonement.demo</groupId>
 	<artifactId>Abonement</artifactId>
 
 <version>1.0</version>
@@ -26,7 +26,10 @@
 	<module>AbonementFitness</module>
 	<module>Abonement-demo-rest</module>
 	<module>Abonement-events-contract</module>
+	<module>Abonement-grpc-contract</module>
 	<module>audit-service</module>
+	<module>grpc-analytics-server</module>
+	<module>grpc-enrichment-client</module>
 </modules>
 
 
