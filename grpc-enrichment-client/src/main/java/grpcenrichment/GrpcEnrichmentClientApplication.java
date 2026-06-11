@@ -1,0 +1,31 @@
+package grpcenrichment;
+
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+/**
+ * gRPC Enrichment Client — микросервис обогащения книг.
+ *
+ * Слушает событие book.created из RabbitMQ, вызывает gRPC-сервер
+ * для аналитики и публикует book.enriched обратно в шину.
+ *
+ * Запуск:
+ *   mvnw spring-boot:run -pl grpc-enrichment-client
+ */
+@SpringBootApplication
+public class GrpcEnrichmentClientApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(GrpcEnrichmentClientApplication.class, args);
+    }
+    @Bean
+    public JsonMapper jsonMapper() {
+        return JsonMapper.builder()
+                .addModule(new JavaTimeModule())
+                .build();
+    }
+
+}
