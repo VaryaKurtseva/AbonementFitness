@@ -9,12 +9,12 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 /**
- * Запрос для частичного обновления автора (PATCH, семантика JSON Merge Patch).
+ * Запрос для частичного обновления пользователя (PATCH, семантика JSON Merge Patch).
  *
  * Все поля необязательны. Передайте только то, что нужно изменить.
  * Поля, которые не переданы (null), сервис оставляет без изменений.
  */
-@Schema(description = "Частичное обновление автора (PATCH). Передайте только те поля, которые нужно изменить.")
+@Schema(description = "Частичное обновление пользователя (PATCH). Передайте только те поля, которые нужно изменить.")
 public record PatchUserRequest(
 
         @Schema(description = "Имя пользователя", example = "Лев", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -26,13 +26,12 @@ public interface ButtonApi {
     @Operation(
             summary = "Список кнопок",
             description = """
-                    Возвращает постраничный список пользователей с HATEOAS-ссылками.
-                    Поддерживает комбинирование фильтров: userId,name и surname
-                    можно передавать одновременно.
+                    Возвращает постраничный список кнопок с HATEOAS-ссылками.
+                    Есть возможность фильтации по id пользователя.
                     """,
             security = @SecurityRequirement(name = AbonementFitnessApiContract.SECURITY_SCHEME_BEARER)
     )
-    @ApiResponse(responseCode = "200", description = "Постраничный список пользователей")
+    @ApiResponse(responseCode = "200", description = "Постраничный список кнопок")
     @GetMapping
     PagedModel<EntityModel<ButtonResponse>> getAllButtons(
             @Parameter(description = "Фильтр по ID user") @RequestParam(required = false) Long userId,
@@ -51,7 +50,7 @@ public interface ButtonApi {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @ApiResponse(responseCode = "404", description = "Пользователь с указанным Именем и Фамилией не найден",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    @ApiResponse(responseCode = "409", description = "Пользователь с таким ISBN уже существует",
+    @ApiResponse(responseCode = "409", description = "Пользователь с таким ID уже существует",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @ApiResponse(responseCode = "403", description = "Отказано в продлении (низкая репутация/нарушения)",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
@@ -86,11 +85,11 @@ public interface ButtonApi {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     EntityModel<ButtonResponse> updateButton(
             @Parameter(description = "ID пользователя", required = true, example = "1") @PathVariable Long id,
-            @Valid @RequestBody ButtonRequest request
+            @Valid @RequestBody UpdateButtonRequest request
     );
 
     @Operation(
-            summary = "Частичное обновление пользователя (PATCH)",
+            summary = "Частичное обновление кнопки (PATCH)",
             description = """
                     Обновляет только переданные поля (семантика JSON Merge Patch, RFC 7396).
                     Непереданные поля остаются без изменений. .

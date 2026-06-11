@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 /**
- * Центральная OpenAPI-конфигурация контракта Books API.
+ * Центральная OpenAPI-конфигурация контракта AbonementFitness API.
  *
  * Это не Spring-бин — здесь нет @Component или @Configuration.
  * Библиотека springdoc-openapi сканирует classpath и автоматически подхватывает
