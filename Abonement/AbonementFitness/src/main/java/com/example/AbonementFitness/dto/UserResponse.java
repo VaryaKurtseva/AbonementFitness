@@ -11,7 +11,7 @@ import org.springframework.hateoas.server.core.Relation;
 import java.time.LocalDate;
 
 /**
- * Данные автора в ответе API.
+ * Данные пользователя в ответе API.
  *
  * Расширяет RepresentationModel для поддержки HATEOAS-ссылок — поэтому здесь
  * обычный класс с Lombok, а не record (record не может расширять классы).
