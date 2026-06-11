@@ -86,7 +86,7 @@ public interface ButtonApi {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     EntityModel<ButtonResponse> updateButton(
             @Parameter(description = "ID пользователя", required = true, example = "1") @PathVariable Long id,
-            @Valid @RequestBody ButtonRequest request
+            @Valid @RequestBody UpdateButtonRequest request
     );
 
     @Operation(
