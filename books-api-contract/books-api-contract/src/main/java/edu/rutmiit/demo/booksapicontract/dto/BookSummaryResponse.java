@@ -15,7 +15,10 @@ import org.springframework.hateoas.server.core.Relation;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Relation(collectionRelation = "books", itemRelation = "book")
 @Schema(description = "Укороченная информация ответа для книги")
-public class BookSummaryResponse extends RepresentationModel<BookResponse> {
+public class BookSummaryResponse extends RepresentationModel<BookSummaryResponse> {
+    @Schema(description = "ID книги", example = "1")
+    private final Long id;
     @Schema(description = "Название книги", example = "Война и мир")
     private final String title;
 }
+
