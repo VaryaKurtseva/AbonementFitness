@@ -3,6 +3,7 @@ package edu.rutmiit.demo.demorest.graphql.security;
 import graphql.analysis.MaxQueryComplexityInstrumentation;
 import graphql.analysis.MaxQueryDepthInstrumentation;
 import graphql.execution.instrumentation.Instrumentation;
+import graphql.execution.instrumentation.tracing.TracingInstrumentation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,5 +44,9 @@ public class GraphQLSecurityConfig {
     @Bean
     public Instrumentation maxQueryComplexityInstrumentation() {
         return new MaxQueryComplexityInstrumentation(200);
+    }
+    @Bean
+    public Instrumentation tracingInstrumentation() {
+        return new TracingInstrumentation();
     }
 }

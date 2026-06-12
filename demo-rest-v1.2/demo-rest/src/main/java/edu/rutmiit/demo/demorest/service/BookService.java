@@ -205,4 +205,9 @@ public class BookService {
 
 
     }
+    public long getBooksCountByAuthorId(Long authorId) {
+        return storage.books.values().stream()
+                .filter(b -> b.getAuthor() != null && b.getAuthor().getId().equals(authorId))
+                .count();
+    }
 }

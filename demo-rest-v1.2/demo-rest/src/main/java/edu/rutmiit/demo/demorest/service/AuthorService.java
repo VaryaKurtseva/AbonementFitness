@@ -1,6 +1,7 @@
 package edu.rutmiit.demo.demorest.service;
 
 import edu.rutmiit.demo.booksapicontract.dto.*;
+import edu.rutmiit.demo.booksapicontract.exception.AuthorHasBooksException;
 import edu.rutmiit.demo.booksapicontract.exception.ResourceNotFoundException;
 import edu.rutmiit.demo.demorest.storage.InMemoryStorage;
 import org.springframework.context.annotation.Lazy;
@@ -96,6 +97,10 @@ public class AuthorService {
 
     public void delete(Long id) {
         findById(id); // Проверяем, что автор существует
+        long booksCount = bookService.getBooksCountByAuthorId(id);
+        if (booksCount > 0){
+            throw new AuthorHasBooksException(id, (int) booksCount);
+        }
         bookService.deleteBooksByAuthorId(id); // Каскадное удаление книг
         storage.authors.remove(id);
     }

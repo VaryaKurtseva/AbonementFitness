@@ -83,6 +83,29 @@ public class BookDataFetcher {
                 new PageInfoGql(paged.pageNumber(), paged.pageSize(), paged.totalPages(), paged.last()),
                 (int) paged.totalElements());
     }
+    @DgsQuery
+    public BookConnectionGql booksByGenre(
+            @InputArgument String genre,
+            @InputArgument Integer page,
+            @InputArgument Integer size) {
+
+        int pageNum = page != null ? page : 0;
+        int pageSize = size != null ? size : 20;
+
+        // Ищем книги по жанру (authorId=null, genre=переданный, остальные фильтры=null)
+        PagedResponse<BookResponse> paged = bookService.findAllBooks(
+                null,
+                genre,
+                null,
+                null,
+                pageNum,
+                pageSize);
+
+        return new BookConnectionGql(
+                paged.content(),
+                new PageInfoGql(paged.pageNumber(), paged.pageSize(), paged.totalPages(), paged.last()),
+                (int) paged.totalElements());
+    }
 
     /**
      * Создание книги.

@@ -1,6 +1,7 @@
 package edu.rutmiit.demo.demorest.graphql.exception;
 
 import com.netflix.graphql.types.errors.TypedGraphQLError;
+import edu.rutmiit.demo.booksapicontract.exception.AuthorHasBooksException;
 import edu.rutmiit.demo.booksapicontract.exception.IsbnAlreadyExistsException;
 import edu.rutmiit.demo.booksapicontract.exception.ResourceNotFoundException;
 import graphql.execution.DataFetcherExceptionHandler;
@@ -48,6 +49,18 @@ public class GraphQLExceptionHandler implements DataFetcherExceptionHandler {
         // Конфликт ISBN — аналог HTTP 409
         if (exception instanceof IsbnAlreadyExistsException) {
             var error = TypedGraphQLError.newConflictBuilder()
+                    .message(exception.getMessage())
+                    .path(handlerParameters.getPath())
+                    .build();
+
+            return CompletableFuture.completedFuture(
+                    DataFetcherExceptionHandlerResult.newResult()
+                            .error(error)
+                            .build());
+        }
+        //Автор имеет книги — аналог HTTP 403 Forbidden
+        if (exception instanceof AuthorHasBooksException) {
+            var error = TypedGraphQLError.newPermissionDeniedBuilder()
                     .message(exception.getMessage())
                     .path(handlerParameters.getPath())
                     .build();

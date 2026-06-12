@@ -29,6 +29,7 @@ type Author {
     birthDate: Date
     nationality: String
     booksCount: Int!
+    averageRating: Float
 
     # Связь «один ко многим»: книги данного автора с пагинацией.
     # Резолвер загружает книги только если клиент запросил это поле.
@@ -160,6 +161,7 @@ type Query {
     # Получить книгу по идентификатору. Возвращает null если не найдена.
     book(id: ID!): Book
     reviews(bookId: ID!): [Review!]!
+    booksByGenre(genre: String!, page: Int = 0, size: Int = 20): BookConnection!
 
     # Список книг с фильтрацией и пагинацией.
     books(filter: BookFilter, page: Int = 0, size: Int = 20): BookConnection!
