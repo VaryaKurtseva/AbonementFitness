@@ -122,7 +122,7 @@ public interface AuthorApi {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteAuthor(
+    ResponseEntity<Void> deleteAuthor(
             @Parameter(description = "ID автора", required = true, example = "1") @PathVariable Long id
     );
 
