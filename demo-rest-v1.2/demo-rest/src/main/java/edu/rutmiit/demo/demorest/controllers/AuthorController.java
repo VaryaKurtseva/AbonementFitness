@@ -13,6 +13,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,9 +41,8 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
-    public PagedModel<EntityModel<AuthorResponse>> getAllAuthors(int page, int size,String nationality, String nameSearch) {
-        AuthorFilter filter = AuthorFilter.builder().nationality(nationality).nameSearch(nameSearch).build();
-        PagedResponse<AuthorResponse> paged = authorService.findAll(page, size, filter);
+    public PagedModel<EntityModel<AuthorResponse>> getAllAuthors(int page, int size) {
+        PagedResponse<AuthorResponse> paged = authorService.findAll(page, size);
         Page<AuthorResponse> springPage = new PageImpl<>(
                 paged.content(),
                 PageRequest.of(paged.pageNumber(), paged.pageSize()),
@@ -55,6 +55,19 @@ public class AuthorController implements AuthorApi {
     public EntityModel<AuthorResponse> getAuthorById(Long id) {
         return authorModelAssembler.toModel(authorService.findById(id));
     }
+
+    @Override
+    public PagedModel<EntityModel<AuthorResponse>> getAuthorByName(String query, int page, int size) {
+        PagedResponse<AuthorResponse> paged = authorService.searchByName(query,page, size);
+        Page<AuthorResponse> springPage = new PageImpl<>(
+                paged.content(),
+                PageRequest.of(paged.pageNumber(), paged.pageSize()),
+                paged.totalElements()
+        );
+        return pagedAuthorsAssembler.toModel(springPage, authorModelAssembler);
+    }
+
+
 
     @Override
     public ResponseEntity<EntityModel<AuthorResponse>> createAuthor(AuthorRequest request) {
@@ -76,8 +89,9 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
-    public void deleteAuthor(Long id) {
+    public ResponseEntity<Void> deleteAuthor(Long id) {
         authorService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

@@ -126,6 +126,7 @@ input CreateAuthorInput {
     bio: String
     birthDate: Date
     nationality: String
+    numberPhone: String
 }
 
 # Полное обновление автора — все поля как при создании.
@@ -136,6 +137,7 @@ input UpdateAuthorInput {
     bio: String
     birthDate: Date
     nationality: String
+    numberPhone: String
 }
 
 # Фильтрация книг — аналог query-параметров в REST GET /api/books.

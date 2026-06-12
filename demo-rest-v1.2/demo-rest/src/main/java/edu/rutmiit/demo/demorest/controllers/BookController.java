@@ -3,6 +3,7 @@ package edu.rutmiit.demo.demorest.controllers;
 import edu.rutmiit.demo.booksapicontract.dto.*;
 import edu.rutmiit.demo.booksapicontract.endpoints.BookApi;
 import edu.rutmiit.demo.demorest.assemblers.BookModelAssembler;
+import edu.rutmiit.demo.demorest.assemblers.BookSummaryModelAssembler;
 import edu.rutmiit.demo.demorest.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,17 +14,21 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class BookController implements BookApi {
 
     private final BookService bookService;
     private final BookModelAssembler bookModelAssembler;
+    private final BookSummaryModelAssembler bookSummaryModelAssembler;
     private final PagedResourcesAssembler<BookResponse> pagedResourcesAssembler;
 
     public BookController(BookService bookService, BookModelAssembler bookModelAssembler,
-                          PagedResourcesAssembler<BookResponse> pagedResourcesAssembler) {
+                          BookSummaryModelAssembler bookSummaryModelAssembler, PagedResourcesAssembler<BookResponse> pagedResourcesAssembler) {
         this.bookService = bookService;
         this.bookModelAssembler = bookModelAssembler;
+        this.bookSummaryModelAssembler = bookSummaryModelAssembler;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
@@ -34,7 +39,7 @@ public class BookController implements BookApi {
 
     @Override
     public PagedModel<EntityModel<BookResponse>> getAllBooks(Long authorId, String genre, Integer publishedYear,
-                                                            String titleSearch, int page, int size) {
+                                                             String titleSearch, int page, int size) {
         PagedResponse<BookResponse> paged = bookService.findAllBooks(authorId, genre, publishedYear, titleSearch, page, size);
         Page<BookResponse> springPage = new PageImpl<>(
                 paged.content(),
@@ -51,6 +56,14 @@ public class BookController implements BookApi {
         return ResponseEntity
                 .created(model.getRequiredLink("self").toUri())
                 .body(model);
+    }
+
+    @Override
+    public List<EntityModel<BookSummaryResponse>> getAllBooksSummary() {
+        List<BookSummaryResponse> bookSummaryResponseList = bookService.getAllBookSummary();
+
+
+        return bookSummaryResponseList.stream().map(bookSummaryModelAssembler::toModel).toList();
     }
 
     @Override

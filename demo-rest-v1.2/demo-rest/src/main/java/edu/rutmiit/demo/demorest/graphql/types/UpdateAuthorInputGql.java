@@ -8,9 +8,16 @@ import java.time.LocalDate;
  */
 public record UpdateAuthorInputGql(
         String firstName,
+
         String lastName,
+
         String email,
+
         String bio,
+
         LocalDate birthDate,
+
+        String numberPhone,
+
         String nationality
 ) {}

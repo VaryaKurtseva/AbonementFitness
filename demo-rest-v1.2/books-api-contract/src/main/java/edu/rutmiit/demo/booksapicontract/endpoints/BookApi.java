@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Контракт API для управления книгами.
  * Реализующий контроллер в сервисе должен имплементировать этот интерфейс.
@@ -74,6 +76,17 @@ public interface BookApi {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     ResponseEntity<EntityModel<BookResponse>> createBook(@Valid @RequestBody BookRequest request);
+    @Operation(
+            summary = "Краткий список всех книг (без деталей)",
+            security = @SecurityRequirement(name = BooksApiContractConfig.SECURITY_SCHEME_BEARER)
+    )
+    @ApiResponse(responseCode = "200", description = "Книга найдена")
+    @ApiResponse(responseCode = "404", description = "Книга не найдена",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    @GetMapping("/summary")
+    List<EntityModel<BookSummaryResponse>> getAllBooksSummary();
+
+
 
     @Operation(
             summary = "Полное обновление книги (PUT)",

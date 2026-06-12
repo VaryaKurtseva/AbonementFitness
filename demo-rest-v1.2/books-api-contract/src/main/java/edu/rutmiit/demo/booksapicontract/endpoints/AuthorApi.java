@@ -40,12 +40,7 @@ public interface AuthorApi {
             @Parameter(description = "Номер страницы (0..N)", example = "0")
             @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Размер страницы", example = "20")
-            @RequestParam(defaultValue = "20") int size,
-            @Parameter(description = "Фильтрация для автора по национальности", example = "Русский")
-            @RequestParam(defaultValue = "Русский") String nationality,
-            @Parameter(description = "Фильтрация для автора по полному имени", example = "Федор Достоевский")
-            @RequestParam(defaultValue = "Федор Достоевский") String nameSearch
-
+            @RequestParam(defaultValue = "20") int size
     );
 
     @Operation(
@@ -58,6 +53,19 @@ public interface AuthorApi {
     @GetMapping("/{id}")
     EntityModel<AuthorResponse> getAuthorById(
             @Parameter(description = "ID автора", required = true, example = "1") @PathVariable Long id
+    );
+    @Operation(
+            summary = "Получить автора по имени",
+            security = @SecurityRequirement(name = BooksApiContractConfig.SECURITY_SCHEME_BEARER)
+    )
+    @ApiResponse(responseCode = "200", description = "Автор найден")
+    @ApiResponse(responseCode = "404", description = "Автор не найден",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    @GetMapping("/searchByName/{query}")
+    PagedModel<EntityModel<AuthorResponse>> getAuthorByName(
+            @Parameter(description = "Имя автора", required = true, example = "Лев") @PathVariable String query,
+            @Parameter(description = "Номер страницы (0..N)", example = "0") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Размер страницы", example = "20") @RequestParam(defaultValue = "20") int size
     );
 
     @Operation(
@@ -116,7 +124,7 @@ public interface AuthorApi {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteAuthor(
+    ResponseEntity<Void> deleteAuthor(
             @Parameter(description = "ID автора", required = true, example = "1") @PathVariable Long id
     );
 

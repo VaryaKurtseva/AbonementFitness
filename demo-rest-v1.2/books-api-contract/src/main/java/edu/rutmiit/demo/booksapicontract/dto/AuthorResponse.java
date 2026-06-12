@@ -51,4 +51,6 @@ public class AuthorResponse extends RepresentationModel<AuthorResponse> {
 
     @Schema(description = "Общее количество книг автора в каталоге", example = "3")
     private final Integer booksCount;
+    @Schema(description = "Номер телефона", example = "+79262533596")
+    private final String numberPhone;
 }

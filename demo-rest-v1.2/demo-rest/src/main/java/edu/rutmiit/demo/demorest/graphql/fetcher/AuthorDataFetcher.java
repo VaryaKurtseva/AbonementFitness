@@ -54,7 +54,7 @@ public class AuthorDataFetcher {
         int pageNum = page != null ? page : 0;
         int pageSize = size != null ? size : 20;
 
-        PagedResponse<AuthorResponse> paged = authorService.findAll(pageNum, pageSize, filter);
+        PagedResponse<AuthorResponse> paged = authorService.findAllWithFilter(filter, pageNum, pageSize);
 
         return new AuthorConnectionGql(
                 paged.content(),
@@ -74,6 +74,7 @@ public class AuthorDataFetcher {
                 input.email(),
                 input.bio(),
                 input.birthDate(),
+                input.numberPhone(),
                 input.nationality()
         );
         return authorService.create(request);
@@ -91,6 +92,7 @@ public class AuthorDataFetcher {
                 input.email(),
                 input.bio(),
                 input.birthDate(),
+                input.numberPhone(),
                 input.nationality()
         );
         return authorService.update(Long.parseLong(id), request);

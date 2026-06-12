@@ -89,7 +89,12 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
+<<<<<<< HEAD
     public ResponseEntity<Void> deleteAuthor(Long id) {
+=======
+    @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<Void> deleteAuthor(Long id) {
+>>>>>>> 5750ec939f2dd9ced683a77523061298bd201505
         authorService.delete(id);
         return ResponseEntity.noContent().build();
     }

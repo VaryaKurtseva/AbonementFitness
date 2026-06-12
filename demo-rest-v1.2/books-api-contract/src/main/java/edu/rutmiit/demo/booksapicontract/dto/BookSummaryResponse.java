@@ -15,13 +15,10 @@ import org.springframework.hateoas.server.core.Relation;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Relation(collectionRelation = "books", itemRelation = "book")
 @Schema(description = "Укороченная информация ответа для книги")
-<<<<<<< HEAD
-public class BookSummaryResponse extends RepresentationModel<BookResponse> {
-    @Schema(description = "Уникальный идентификатор книги", example = "1")
-=======
+
 public class BookSummaryResponse extends RepresentationModel<BookSummaryResponse> {
-    @Schema(description = "ID книги", example = "1")
->>>>>>> 5750ec939f2dd9ced683a77523061298bd201505
+    @Schema(description = "Уникальный идентификатор книги", example = "1")
+
     private final Long id;
     @Schema(description = "Название книги", example = "Война и мир")
     private final String title;
@@ -30,4 +27,3 @@ public class BookSummaryResponse extends RepresentationModel<BookSummaryResponse
 
 
 }
-

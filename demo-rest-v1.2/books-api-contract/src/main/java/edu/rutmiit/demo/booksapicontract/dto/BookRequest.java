@@ -1,6 +1,7 @@
 package edu.rutmiit.demo.booksapicontract.dto;
 
 import edu.rutmiit.demo.booksapicontract.validation.ValidIsbn;
+import edu.rutmiit.demo.booksapicontract.validation.ValidYear;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
@@ -35,6 +36,7 @@ public record BookRequest(
         @Schema(description = "Год первой публикации", example = "1869")
         @Min(value = 1, message = "Год публикации должен быть положительным")
         @Max(value = 9999, message = "Укажите корректный год публикации")
+        @ValidYear
         Integer publishedYear,
 
         @Schema(description = "Язык книги (код ISO 639-1)", example = "ru")

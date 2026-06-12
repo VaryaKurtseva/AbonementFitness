@@ -5,9 +5,12 @@ import edu.rutmiit.demo.booksapicontract.exception.IsbnAlreadyExistsException;
 import edu.rutmiit.demo.booksapicontract.exception.ResourceNotFoundException;
 import edu.rutmiit.demo.demorest.storage.InMemoryStorage;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -46,14 +49,37 @@ public class BookService {
             String q = titleSearch.toLowerCase();
             stream = stream.filter(b -> b.getTitle() != null && b.getTitle().toLowerCase().contains(q));
         }
-
         List<BookResponse> allBooks = stream.toList();
-        int totalElements = allBooks.size();
+
+        List<BookResponse> bookWithfreshAuthor = freshAuthor(allBooks);
+        int totalElements = bookWithfreshAuthor.size();
         int totalPages = size > 0 ? (int) Math.ceil((double) totalElements / size) : 1;
         int from = page * size;
         int to = Math.min(from + size, totalElements);
-        List<BookResponse> content = (from >= totalElements) ? List.of() : allBooks.subList(from, to);
+        List<BookResponse> content = (from >= totalElements) ? List.of() : bookWithfreshAuthor.subList(from, to);
         return new PagedResponse<>(content, page, size, totalElements, totalPages, page >= totalPages - 1);
+    }
+    public List<BookResponse> freshAuthor( List<BookResponse> allBooks){
+        List<BookResponse> freshAuthor = new ArrayList<>();
+        for(BookResponse book : allBooks){
+            AuthorResponse authorResponse = authorService.findById(book.getAuthor().getId());
+            BookResponse bookResponse = BookResponse.builder()
+                    .id(book.getId())
+                    .title(book.getTitle())
+                    .isbn(book.getIsbn())
+                    .author(authorResponse)
+                    .description(book.getDescription())
+                    .genre(book.getGenre())
+                    .publishedYear(book.getPublishedYear())
+                    .language(book.getLanguage())
+                    .createdAt(book.getCreatedAt())
+                    .updatedAt(book.getUpdatedAt())
+                    .build();
+            freshAuthor.add(bookResponse);
+
+        }
+        return freshAuthor;
+
     }
 
     public BookResponse createBook(BookRequest request) {
@@ -66,6 +92,22 @@ public class BookService {
                 .title(request.title())
                 .isbn(request.isbn())
                 .author(author)
+                .description(request.description())
+                .genre(request.genre())
+                .publishedYear(request.publishedYear())
+                .language(request.language())
+                .createdAt(OffsetDateTime.now())
+                .build();
+
+        storage.books.put(id, book);
+        authorService.recalculateBooksCount(request.authorId());
+        // Обновляю количество книг у автора
+        AuthorResponse updateAuthor = authorService.findById(request.authorId());
+        book = BookResponse.builder()
+                .id(id)
+                .title(request.title())
+                .isbn(request.isbn())
+                .author(updateAuthor)
                 .description(request.description())
                 .genre(request.genre())
                 .publishedYear(request.publishedYear())
@@ -91,7 +133,7 @@ public class BookService {
                 .publishedYear(request.publishedYear())
                 .language(request.language())
                 .createdAt(existing.getCreatedAt())
-                .updatedAt(OffsetDateTime.now())
+                .createdAt(OffsetDateTime.now())
                 .build();
         storage.books.put(id, updated);
         return updated;
@@ -115,15 +157,18 @@ public class BookService {
                 .publishedYear(request.publishedYear() != null ? request.publishedYear() : existing.getPublishedYear())
                 .language(request.language() != null ? request.language() : existing.getLanguage())
                 .createdAt(existing.getCreatedAt())
-                .updatedAt(OffsetDateTime.now())
+                .createdAt(OffsetDateTime.now())
                 .build();
         storage.books.put(id, updated);
         return updated;
     }
 
     public void deleteBook(Long id) {
-        findBookById(id);
+        BookResponse book = findBookById(id);
+        AuthorResponse author = book.getAuthor();
         storage.books.remove(id);
+        authorService.recalculateBooksCount(author.getId());
+
     }
 
     public void deleteBooksByAuthorId(Long authorId) {
@@ -132,6 +177,7 @@ public class BookService {
                 .map(BookResponse::getId)
                 .toList();
         toDelete.forEach(storage.books::remove);
+        authorService.recalculateBooksCount(authorId);
     }
 
     private void validateIsbn(String isbn, Long currentBookId) {
@@ -140,5 +186,23 @@ public class BookService {
                 .filter(b -> !b.getId().equals(currentBookId))
                 .findAny()
                 .ifPresent(b -> { throw new IsbnAlreadyExistsException(isbn); });
+    }
+
+    public List<BookSummaryResponse> getAllBookSummary() {
+        List<BookSummaryResponse> bookSummaryResponses = new ArrayList<>();
+        List<BookResponse> bookResponses = storage.books.values().stream().toList();
+        for(int i = 0; i < bookResponses.size(); i++){
+            BookSummaryResponse bookSummaryResponse = BookSummaryResponse.builder()
+                    .id(bookResponses.get(i).getId())
+                    .title(bookResponses.get(i).getTitle())
+                    .isbn(bookResponses.get(i).getIsbn())
+                    .build();
+            bookSummaryResponses.add(bookSummaryResponse);
+
+        }
+
+        return bookSummaryResponses;
+
+
     }
 }

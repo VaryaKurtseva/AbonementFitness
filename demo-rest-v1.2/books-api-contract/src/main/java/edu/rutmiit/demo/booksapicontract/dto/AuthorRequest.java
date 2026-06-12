@@ -34,6 +34,10 @@ public record AuthorRequest(
         @Schema(description = "Дата рождения автора", example = "1828-09-09")
         @Past(message = "Дата рождения должна быть в прошлом")
         LocalDate birthDate,
+        @Schema(description = "Номер телефона", example = "+79262533596")
+        @NotBlank(message = "Номер телефона не может быть пустым")
+        @Size(max = 12, min = 11, message = "Номер телефона не может превышать 12 символов и быть меньше 11 символов")
+        String numberPhone,
 
         @Schema(description = "Национальность автора", example = "Русский")
         @Size(max = 100, message = "Национальность не может превышать 100 символов")
