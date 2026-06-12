@@ -32,17 +32,12 @@ public record UpdateButtonRequest (
         Integer value,
 
         @Schema(description = "Дата активации абонемента", example = "2026-01-03")
-<<<<<<< HEAD
         @NotNull(message = "Дата активации не может быть пустой")
         LocalDate subscriptionActivation,
-        @Schema(description = "Дата окончания абонемента", example = "2026-03-03")
-        @NotNull(message = "Дата окончания не может быть пустой")
-=======
-        @NotNull(message = "Дата активации абонемента не может быть пустой")
-        LocalDate subscriptionActivation,
+
         @Schema(description = "Дата окончания абонемента", example = "2026-03-03")
         @NotNull(message = "Дата окончания абонемента не может быть пустой")
->>>>>>> 5750ec939f2dd9ced683a77523061298bd201505
+
         LocalDate endOfSubscription
 ){}
 
