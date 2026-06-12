@@ -123,7 +123,8 @@ public class AuthorService {
         List<BookResponse> booksInStorage = storage.books.values().stream().toList();
         int count = 0;
         for(int i = 0; i < booksInStorage.size(); i++){
-            if(booksInStorage.get(i).getAuthor().equals(author)) count ++;
+            BookResponse book = booksInStorage.get(i);
+            if (book.getAuthor() != null && book.getAuthor().getId().equals(authorId)) count++;
         }
         AuthorResponse updateAuthor = AuthorResponse.builder()
                 .id(authorId)
@@ -138,8 +139,6 @@ public class AuthorService {
                 .booksCount(count)
                 .build();
         storage.authors.put(authorId, updateAuthor);
-
-
 
     }
 }

@@ -17,7 +17,8 @@ public class BookModelAssembler implements RepresentationModelAssembler<BookResp
     public EntityModel<BookResponse> toModel(BookResponse book) {
         EntityModel<BookResponse> model = EntityModel.of(book,
                 linkTo(methodOn(BookController.class).getBookById(book.getId())).withSelfRel(),
-                linkTo(methodOn(BookController.class).getAllBooks(null, null, null, null, 0, 20)).withRel("collection")
+                linkTo(methodOn(BookController.class).getAllBooks(null, null, null, null, 0, 20)).withRel("collection"),
+                linkTo(methodOn(BookController.class).getAllBooksSummary()).withRel("summary")
         );
         if (book.getAuthor() != null) {
             model.add(linkTo(methodOn(AuthorController.class)

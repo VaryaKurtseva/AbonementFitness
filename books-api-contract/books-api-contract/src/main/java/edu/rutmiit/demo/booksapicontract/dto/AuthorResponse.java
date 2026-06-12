@@ -20,7 +20,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Builder
-    @EqualsAndHashCode(callSuper = false) // не включаем HATEOAS-ссылки в сравнение equals
+@EqualsAndHashCode(callSuper = false) // не включаем HATEOAS-ссылки в сравнение equals
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Relation(collectionRelation = "authors", itemRelation = "author")
 @Schema(description = "Информация об авторе")

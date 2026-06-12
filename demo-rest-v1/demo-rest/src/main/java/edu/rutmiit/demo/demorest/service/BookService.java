@@ -48,14 +48,37 @@ public class BookService {
             String q = titleSearch.toLowerCase();
             stream = stream.filter(b -> b.getTitle() != null && b.getTitle().toLowerCase().contains(q));
         }
-
         List<BookResponse> allBooks = stream.toList();
-        int totalElements = allBooks.size();
+
+        List<BookResponse> bookWithfreshAuthor = freshAuthor(allBooks);
+        int totalElements = bookWithfreshAuthor.size();
         int totalPages = size > 0 ? (int) Math.ceil((double) totalElements / size) : 1;
         int from = page * size;
         int to = Math.min(from + size, totalElements);
-        List<BookResponse> content = (from >= totalElements) ? List.of() : allBooks.subList(from, to);
+        List<BookResponse> content = (from >= totalElements) ? List.of() : bookWithfreshAuthor.subList(from, to);
         return new PagedResponse<>(content, page, size, totalElements, totalPages, page >= totalPages - 1);
+    }
+    public List<BookResponse> freshAuthor( List<BookResponse> allBooks){
+        List<BookResponse> freshAuthor = new ArrayList<>();
+        for(BookResponse book : allBooks){
+            AuthorResponse authorResponse = authorService.findById(book.getAuthor().getId());
+            BookResponse bookResponse = BookResponse.builder()
+                    .id(book.getId())
+                    .title(book.getTitle())
+                    .isbn(book.getIsbn())
+                    .author(authorResponse)
+                    .description(book.getDescription())
+                    .genre(book.getGenre())
+                    .publishedYear(book.getPublishedYear())
+                    .language(book.getLanguage())
+                    .createdAt(book.getCreatedAt())
+                    .updatedAt(book.getUpdatedAt())
+                    .build();
+            freshAuthor.add(bookResponse);
+
+        }
+        return freshAuthor;
+
     }
 
     public BookResponse createBook(BookRequest request) {
@@ -77,6 +100,20 @@ public class BookService {
 
         storage.books.put(id, book);
         authorService.recalculateBooksCount(request.authorId());
+        // Обновляю количество книг у автора
+        AuthorResponse updateAuthor = authorService.findById(request.authorId());
+        book = BookResponse.builder()
+                .id(id)
+                .title(request.title())
+                .isbn(request.isbn())
+                .author(updateAuthor)
+                .description(request.description())
+                .genre(request.genre())
+                .publishedYear(request.publishedYear())
+                .language(request.language())
+                .createdAt(LocalDateTime.now())
+                .build();
+        storage.books.put(id, book);
 
         return book;
     }
