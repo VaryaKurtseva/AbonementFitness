@@ -1,0 +1,5 @@
+C:\grpc_all\grpc-enrichment-client\src\main\java\edu\rutmiit\demo\grpcenrichment\config\GrpcClientConfig.java
+C:\grpc_all\grpc-enrichment-client\src\main\java\edu\rutmiit\demo\grpcenrichment\config\RabbitMQConfig.java
+C:\grpc_all\grpc-enrichment-client\src\main\java\edu\rutmiit\demo\grpcenrichment\GrpcEnrichmentClientApplication.java
+C:\grpc_all\grpc-enrichment-client\src\main\java\edu\rutmiit\demo\grpcenrichment\listener\BookCreatedListener.java
+C:\grpc_all\grpc-enrichment-client\src\main\java\edu\rutmiit\demo\grpcenrichment\publisher\EnrichmentEventPublisher.java
