@@ -1,0 +1,6 @@
+C:\Users\79262\OneDrive\Рабочий стол\миитик\6 семестр\соп\demo-rmq-1.0\audit-service\src\main\java\edu\rutmiit\demo\auditservice\AuditServiceApplication.java
+C:\Users\79262\OneDrive\Рабочий стол\миитик\6 семестр\соп\demo-rmq-1.0\audit-service\src\main\java\edu\rutmiit\demo\auditservice\config\RabbitMQConfig.java
+C:\Users\79262\OneDrive\Рабочий стол\миитик\6 семестр\соп\demo-rmq-1.0\audit-service\src\main\java\edu\rutmiit\demo\auditservice\controller\AuditController.java
+C:\Users\79262\OneDrive\Рабочий стол\миитик\6 семестр\соп\demo-rmq-1.0\audit-service\src\main\java\edu\rutmiit\demo\auditservice\listener\AuditEventListener.java
+C:\Users\79262\OneDrive\Рабочий стол\миитик\6 семестр\соп\demo-rmq-1.0\audit-service\src\main\java\edu\rutmiit\demo\auditservice\model\AuditEntry.java
+C:\Users\79262\OneDrive\Рабочий стол\миитик\6 семестр\соп\demo-rmq-1.0\audit-service\src\main\java\edu\rutmiit\demo\auditservice\storage\AuditStorage.java
