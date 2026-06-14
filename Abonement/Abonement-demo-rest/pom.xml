@@ -102,6 +102,7 @@
 			<artifactId>graphql-dgs-extended-scalars</artifactId>
 		</dependency>
 
+
 		<!-- RabbitMQ -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -112,6 +113,11 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.netflix.graphql.dgs</groupId>
+			<artifactId>graphql-dgs</artifactId>
+			<version>11.1.0</version>
 		</dependency>
 	</dependencies>
 

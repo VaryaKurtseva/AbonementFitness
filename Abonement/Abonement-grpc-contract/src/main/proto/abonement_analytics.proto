@@ -21,7 +21,7 @@ package useranalytics;
 // Unary RPC - один запрос это один ответ (типа аналог REST GET/POST)
 service UserAnalytics {
 
-    // Анализирует книгу и возвращает вычисленные метрики
+    // Анализирует пользователя и возвращает вычисленные метрики
     rpc AnalyzeUser (AnalyzeUserRequest) returns (UserAnalysisResponse);
 }
 
