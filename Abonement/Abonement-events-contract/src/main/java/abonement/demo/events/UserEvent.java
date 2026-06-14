@@ -34,7 +34,7 @@ public sealed interface UserEvent {
     ) implements UserEvent {}
 
     /**
-     * User удалён. В нашей системе удаление каскадное — вместе с книгами.
+     * User удалён. В нашей системе удаление каскадное — вместе с кнопками.
      */
     record Deleted(
             Long id,

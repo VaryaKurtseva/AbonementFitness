@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -17,8 +19,31 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<dgs.version>9.1.2</dgs.version>
+		<dgs.version>8.4.0</dgs.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>dgs</id>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.netflix.graphql.dgs</groupId>
+				<artifactId>graphql-dgs-platform-dependencies</artifactId>
+				<version>${dgs.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<!-- Spring Boot Starters -->
@@ -44,13 +69,11 @@
 			<artifactId>spring-data-commons</artifactId>
 		</dependency>
 
-		<!-- Swagger/OpenAPI -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>com.example.AbonementFitness</groupId>
@@ -59,59 +82,38 @@
 		</dependency>
 
 		<dependency>
+			<groupId>abonement.demo.events</groupId>
+			<artifactId>Abonement-events-contract</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>jakarta.annotation</groupId>
 			<artifactId>jakarta.annotation-api</artifactId>
 		</dependency>
 
-		<!-- Netflix DGS — стартер для GraphQL -->
+		<!-- DGS GraphQL -->
 		<dependency>
 			<groupId>com.netflix.graphql.dgs</groupId>
 			<artifactId>graphql-dgs-spring-boot-starter</artifactId>
-			<version>${dgs.version}</version>
 		</dependency>
-		<!-- Расширенные скаляры GraphQL (DateTime, Date) -->
 		<dependency>
-			<groupId>com.graphql-java</groupId>
-			<artifactId>graphql-java-extended-scalars</artifactId>
-			<version>22.0</version>
+			<groupId>com.netflix.graphql.dgs</groupId>
+			<artifactId>graphql-dgs-extended-scalars</artifactId>
 		</dependency>
+
+		<!-- RabbitMQ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
-        <dependency>
-            <groupId>abonement.demo.events</groupId>
-            <artifactId>Abonement-events-contract</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-        </dependency>
-		<dependency>
-			<groupId>org.springframework.amqp</groupId>
-			<artifactId>spring-amqp</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.amqp</groupId>
-			<artifactId>spring-amqp</artifactId>
-		</dependency>
-
-
 	</dependencies>
-	<!-- Управление версиями DGS -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.netflix.graphql.dgs</groupId>
-				<artifactId>graphql-dgs-platform-dependencies</artifactId>
-				<version>${dgs.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<build>
 		<plugins>

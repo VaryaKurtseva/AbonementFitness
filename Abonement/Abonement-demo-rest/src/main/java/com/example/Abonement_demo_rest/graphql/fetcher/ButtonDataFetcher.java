@@ -21,18 +21,11 @@ public class ButtonDataFetcher {
         this.buttonService = buttonService;
     }
 
-
-
     @DgsQuery
     public ButtonResponse button(@InputArgument("requestId") String requestId) {
-        System.out.println(">>> Query.button called with requestId: " + requestId);
+        System.out.println(">>> Запрос button вызван с requestId: " + requestId);
         return buttonService.findButtonById(Long.parseLong(requestId));
     }
-
-
-
-
-
 
     @DgsMutation
     public ButtonResponse createButton(
@@ -43,14 +36,12 @@ public class ButtonDataFetcher {
             @InputArgument LocalDate subscriptionActivation,
             @InputArgument LocalDate endOfSubscription
     ) {
-
-
         try {
             ButtonRequest request = new ButtonRequest(
                     Long.parseLong(userId),
                     Long.parseLong(requestId),
-                    null,  // rejectionReason
-                    null,  // process
+                    null,
+                    null,
                     value,
                     visitsHall,
                     subscriptionActivation,
@@ -58,11 +49,11 @@ public class ButtonDataFetcher {
             );
 
             ButtonResponse response = buttonService.proccessRenewal(request);
-            System.out.println(">>> SUCCESS! requestId: " + response.getRequestId());
+            System.out.println(">>> УСПЕХ! requestId: " + response.getRequestId());
             return response;
 
         } catch (Exception e) {
-            System.err.println(">>> ERROR in createButton: " + e.getMessage());
+            System.err.println(">>> ОШИБКА в createButton: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("Ошибка при создании кнопки: " + e.getMessage(), e);
         }
@@ -73,17 +64,11 @@ public class ButtonDataFetcher {
             @InputArgument("requestId") String requestId,
             @InputArgument("input") UpdateButtonInputGql input) {
 
-        System.out.println(">>> UPDATE BUTTON CALLED! requestId: " + requestId);
+        System.out.println(">>> ОБНОВЛЕНИЕ КНОПКИ! requestId: " + requestId);
 
-        ButtonResponse existing = buttonService.findButtonById(Long.parseLong(requestId));
-
-        ButtonRequest request = new ButtonRequest(
-                existing.getUserId(),
-                existing.getRequestId(),
-                existing.getRejectionReason(),
-                existing.getProcess(),
-                input.getValue(),
+        UpdateButtonRequest request = new UpdateButtonRequest(
                 input.getVisitsHall(),
+                input.getValue(),
                 input.getSubscriptionActivation(),
                 input.getEndOfSubscription()
         );
@@ -93,7 +78,7 @@ public class ButtonDataFetcher {
 
     @DgsMutation(field = "deleteButton")
     public boolean deleteButton(@InputArgument("requestId") String requestId) {
-        System.out.println(">>> DELETE BUTTON CALLED! requestId: " + requestId);
+        System.out.println(">>> УДАЛЕНИЕ КНОПКИ! requestId: " + requestId);
         buttonService.delete(Long.parseLong(requestId));
         return true;
     }

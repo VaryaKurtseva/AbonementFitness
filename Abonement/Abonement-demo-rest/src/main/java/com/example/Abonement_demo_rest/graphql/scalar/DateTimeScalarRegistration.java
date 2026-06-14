@@ -33,6 +33,7 @@ public class DateTimeScalarRegistration {
     @DgsRuntimeWiring
     public RuntimeWiring.Builder addScalars(RuntimeWiring.Builder builder) {
         return builder
+                .scalar(ExtendedScalars.GraphQLLong)
                 .scalar(ExtendedScalars.DateTime)
                 .scalar(ExtendedScalars.Date);
     }

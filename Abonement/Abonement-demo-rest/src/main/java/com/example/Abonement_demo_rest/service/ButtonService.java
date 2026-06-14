@@ -48,7 +48,7 @@ public class ButtonService {
         return patchButton;
     }
 
-    public ButtonResponse update(Long id, ButtonRequest request) {
+    public ButtonResponse update(Long id, UpdateButtonRequest request) {
         ButtonResponse existing = findButtonById(id);
         ButtonResponse updateButton = ButtonResponse.builder()
                 .userId(existing.getUserId())

@@ -23,6 +23,7 @@ import java.time.LocalDate;
         + "Пользователь кнопки не меняется.")
 public record UpdateButtonRequest (
         @Schema(description = "Сколько посещений")
+        @NotNull(message = "Количество посещений не может быть пустым")
                 @ValidVisitsHall
         Integer visitsHall,
         @Schema(description = "На сколько месяцев абонемент",  requiredMode = Schema.RequiredMode.REQUIRED)

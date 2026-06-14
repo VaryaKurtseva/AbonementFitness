@@ -1,9 +1,6 @@
 package com.example.Abonement_demo_rest.controllers;
 
-import com.example.AbonementFitness.dto.ButtonResponse;
-import com.example.AbonementFitness.dto.ButtonRequest;
-import com.example.AbonementFitness.dto.PagedResponse;
-import com.example.AbonementFitness.dto.PatchButtonRequest;
+import com.example.AbonementFitness.dto.*;
 import com.example.AbonementFitness.endpoints.ButtonApi;
 import com.example.Abonement_demo_rest.assemblers.ButtonAssembler;
 import com.example.Abonement_demo_rest.service.ButtonService;
@@ -57,10 +54,13 @@ public class ButtonController implements ButtonApi {
         return ResponseEntity.accepted().body(model);
     }
 
+
     @Override
-    public EntityModel<ButtonResponse> updateButton(Long id, ButtonRequest request) {
+    public EntityModel<ButtonResponse> updateButton(Long id, UpdateButtonRequest request) {
         return buttonAssembler.toModel(buttonService.update(id, request));
     }
+
+
 
     @Override
     public EntityModel<ButtonResponse> patchButton(Long id, PatchButtonRequest request) {

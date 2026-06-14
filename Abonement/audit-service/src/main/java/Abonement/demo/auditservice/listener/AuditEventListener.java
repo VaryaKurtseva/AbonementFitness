@@ -125,13 +125,13 @@ public class AuditEventListener {
             }
             case "user.enriched" -> {
                 UserEvent.Enriched e = jsonMapper.treeToValue(payloadNode,UserEvent.Enriched.class);
-                yield String.format("Книга обогащена id=%d «%s» «%s»  (время провождения в зале: %dмин, сложность: %s, балл: %.1f, эпоха: %s)",
+                yield String.format("Пользователь обогащена id=%d «%s» «%s»  (время провождения в зале: %dмин, сложность: %s, балл: %.1f, эпоха: %s)",
                         e.id(), e.firstName(), e.lastName() ,e.estimatedReadingMinutes(),
                         e.difficultyLevel(), e.recommendationScore(), e.eraClassification());
             }
             case "button.enriched" -> {
                 ButtonEvent.Enriched e = jsonMapper.treeToValue(payloadNode,ButtonEvent.Enriched.class);
-                yield String.format("Книга обогащена userId=%d requestId=%d (время провождения в зале: %dмин, сложность: %s, балл: %.1f, эпоха: %s)",
+                yield String.format("Кнопка обогащена userId=%d requestId=%d (время провождения в зале: %dмин, сложность: %s, балл: %.1f, эпоха: %s)",
                         e.userId(), e.requestId(),  e.estimatedReadingMinutes(),
                         e.difficultyLevel(), e.recommendationScore(), e.eraClassification());
             }

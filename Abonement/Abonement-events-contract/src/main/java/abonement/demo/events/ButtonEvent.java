@@ -23,7 +23,7 @@ import java.time.LocalDate;
 public sealed interface ButtonEvent {
 
     /**
-     * Button создана. Содержит все ключевые атрибуты новой книги.
+     * Button создана. Содержит все ключевые атрибуты новой кнопки.
      */
     record Created(
             Long userId,
