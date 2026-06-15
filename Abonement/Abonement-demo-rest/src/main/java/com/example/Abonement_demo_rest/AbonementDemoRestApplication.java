@@ -12,12 +12,14 @@ import org.springframework.hateoas.config.EnableHypermediaSupport;
 				"com.example.Abonement_demo_rest",
 				"com.example.Abonement_demo_rest.graphql",
 				"com.example.Abonement_demo_rest.graphql.fetcher",
+				"com.example.Abonement_demo_rest.graphql.scalar",
 				"com.example.AbonementFitness"
 		}
 )
 @ComponentScan(basePackages = {
 		"com.example.Abonement_demo_rest",
 		"com.example.Abonement_demo_rest.graphql",
+		"com.example.Abonement_demo_rest.graphql.scalar",
 		"com.example.AbonementFitness"
 })
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)

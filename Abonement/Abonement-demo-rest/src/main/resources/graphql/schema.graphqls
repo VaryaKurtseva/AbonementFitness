@@ -11,8 +11,8 @@
 
 # Пользовательские скалярные типы для работы с датой и временем.
 # DGS преобразует их в java.time.LocalDateTime и java.time.LocalDate.
-scalar DateTime
-scalar Date
+
+#scalar Date
 
 # ---------------------------------------------------------------------------
 # Основные типы данных
@@ -23,8 +23,8 @@ type UserResponse {
     firstName: String!
     lastName: String!
     email: String
-    subscriptionActivation: Date
-    endOfSubscription: Date
+    subscriptionActivation: String
+    endOfSubscription: String
     visitsHall: Int
     numberPhone: String!
 
@@ -41,8 +41,8 @@ type ButtonResponse {
     process: String
     value: Int
     visitsHall: Int
-    subscriptionActivation: Date
-    endOfSubscription: Date
+    subscriptionActivation: String
+    endOfSubscription: String
 
 
     # Связь «многие к одному»: пользователь кнопки.
@@ -91,8 +91,8 @@ input CreateButtonInput {
     process: String
     value: Int
     visitsHall: Int
-    subscriptionActivation: Date
-    endOfSubscription: Date
+    subscriptionActivation: String
+    endOfSubscription: String
 
 }
 
@@ -101,8 +101,8 @@ input CreateButtonInput {
 input UpdateButtonInput {
     visitsHall: Int!
     value: Int!
-    subscriptionActivation: Date!
-    endOfSubscription: Date!
+    subscriptionActivation: String!
+    endOfSubscription: String!
 }
 
 # Создание или полное обновление user.
@@ -112,8 +112,8 @@ input CreateUserInput {
     lastName: String!
 
     email: String
-    subscriptionActivation: Date
-    endOfSubscription: Date
+    subscriptionActivation: String
+    endOfSubscription: String
     visitsHall: Int
     numberPhone: String!
 }
@@ -123,8 +123,8 @@ input UpdateUserInput {
     firstName: String
     lastName: String
     email: String
-    subscriptionActivation: Date
-    endOfSubscription: Date
+    subscriptionActivation: String
+    endOfSubscription: String
     visitsHall: Int
     numberPhone: String
 }
@@ -169,8 +169,8 @@ type Mutation {
             requestId: ID!
             value: Int
             visitsHall: Int
-            subscriptionActivation: Date
-            endOfSubscription: Date
+        subscriptionActivation: String
+        endOfSubscription: String
         ): ButtonResponse!
 
     # Полностью обновить button. User изменить нельзя.

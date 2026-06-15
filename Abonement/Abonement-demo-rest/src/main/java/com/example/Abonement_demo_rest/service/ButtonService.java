@@ -1,7 +1,7 @@
 package com.example.Abonement_demo_rest.service;
 
 import com.example.AbonementFitness.dto.*;
-import com.example.Abonement_demo_rest.event.ButtonEventPublisher;;
+import com.example.Abonement_demo_rest.event.ButtonEventPublisher;
 import com.example.Abonement_demo_rest.storage.InMemoryStorage;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;

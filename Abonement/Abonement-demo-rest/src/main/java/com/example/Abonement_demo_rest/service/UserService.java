@@ -128,7 +128,37 @@ public class UserService {
         
     }
 
-    public void newAbonement(Long id, ButtonResponse patchButton) {
+    public void newAbonement(Long userId, ButtonResponse button) {
+        // 1. Находим пользователя
+        UserResponse existingUser = findById(userId);
+
+        // 2. Обновляем данные абонемента у пользователя
+        UserResponse updatedUser = UserResponse.builder()
+                .id(existingUser.getId())
+                .firstName(existingUser.getFirstName())
+                .lastName(existingUser.getLastName())
+                .fullName(existingUser.getFullName())
+                .email(existingUser.getEmail())
+                .numberPhone(existingUser.getNumberPhone())
+                // Обновляем даты из кнопки (если они есть)
+                .subscriptionActivation(button.getSubscriptionActivation() != null ?
+                        button.getSubscriptionActivation() : existingUser.getSubscriptionActivation())
+                .endOfSubscription(button.getEndOfSubscription() != null ?
+                        button.getEndOfSubscription() : existingUser.getEndOfSubscription())
+                // Обновляем количество посещений (если оно изменилось)
+                .visitsHall(button.getVisitsHall() != null ?
+                        button.getVisitsHall() : existingUser.getVisitsHall())
+                .build();
+
+        // 3. Сохраняем обновленного пользователя
+        storage.users.put(userId, updatedUser);
+
+        // 4. Публикуем событие обновления пользователя
+        userEventPublisher.publishUpdated(updatedUser);
+
+        System.out.println("Абонемент пользователя " + existingUser.getFirstName() +
+                " обновлен: даты=" + button.getSubscriptionActivation() +
+                " → " + button.getEndOfSubscription());
     }
 
 
