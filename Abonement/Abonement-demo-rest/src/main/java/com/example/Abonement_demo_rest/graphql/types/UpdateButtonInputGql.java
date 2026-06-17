@@ -11,6 +11,6 @@ import java.time.LocalDate;
 public class UpdateButtonInputGql {
     private Integer visitsHall;
     private Integer value;
-    private LocalDate subscriptionActivation;
-    private LocalDate endOfSubscription;
+    private String subscriptionActivation;
+    private String endOfSubscription;
 }

@@ -1,7 +1,0 @@
-webSocket\listener\NotificationListener.class
-webSocket\config\RabbitMQConfig.class
-webSocket\dto\EventMetadata.class
-webSocket\dto\NotificationMessage.class
-webSocket\handler\NotificationWebSocketHandler.class
-webSocket\config\WebSocketConfig.class
-webSocket\WebSocketApplication.class

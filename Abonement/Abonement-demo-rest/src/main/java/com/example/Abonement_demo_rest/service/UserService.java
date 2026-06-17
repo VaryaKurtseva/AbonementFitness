@@ -56,6 +56,15 @@ public class UserService {
     }
 
     public UserResponse create(UserRequest request) {
+        if (request.firstName() == null || request.firstName().isBlank()) {
+            throw new IllegalArgumentException("firstName не может быть пустым");
+        }
+        if (request.lastName() == null || request.lastName().isBlank()) {
+            throw new IllegalArgumentException("lastName не может быть пустым");
+        }
+        if (request.numberPhone() == null || request.numberPhone().isBlank()) {
+            throw new IllegalArgumentException("numberPhone не может быть пустым");
+        }
         long id = storage.userSequence.incrementAndGet();
         String fullName = request.firstName() + " " + request.lastName();
         UserResponse user = UserResponse.builder()
@@ -76,6 +85,15 @@ public class UserService {
     }
 
     public UserResponse update(Long id, UpdateUserRequest request) {
+        if (request.firstName() == null || request.firstName().isBlank()) {
+            throw new IllegalArgumentException("firstName не может быть пустым");
+        }
+        if (request.lastName() == null || request.lastName().isBlank()) {
+            throw new IllegalArgumentException("lastName не может быть пустым");
+        }
+        if (request.numberPhone() == null || request.numberPhone().isBlank()) {
+            throw new IllegalArgumentException("numberPhone не может быть пустым");
+        }
         UserResponse existing = findById(id);
         String fullName = request.firstName() + " " + request.lastName();
         UserResponse updateUser = UserResponse.builder()
@@ -96,17 +114,22 @@ public class UserService {
 
     public UserResponse patchUser(Long id, PatchUserRequest request) {
         UserResponse existing = findById(id);
-        String fullName = request.firstName() + " " + request.lastName();
+        String newFirstName = request.firstName() != null ? request.firstName() : existing.getFirstName();
+        String newLastName = request.lastName() != null ? request.lastName() : existing.getLastName();
+        String fullName = newFirstName + " " + newLastName;
         UserResponse updateUser = UserResponse.builder()
                 .id(id)
-                .firstName(request.firstName())
-                .lastName(request.lastName())
+                .firstName(newFirstName)
+                .lastName(newLastName)
                 .fullName(fullName)
                 .email(request.email() != null ? request.email() : existing.getEmail())
                 .numberPhone(request.numberPhone() != null ? request.numberPhone() : existing.getNumberPhone())
-                .subscriptionActivation(request.subscriptionActivation() != null ? request.subscriptionActivation() : existing.getSubscriptionActivation())
-                .endOfSubscription(request.endOfSubscription() != null ? request.endOfSubscription() : existing.getEndOfSubscription())
-                .visitsHall(request.visitsHall() != null ? request.visitsHall() : existing.getVisitsHall())
+                .subscriptionActivation(request.subscriptionActivation() != null ?
+                        request.subscriptionActivation() : existing.getSubscriptionActivation())
+                .endOfSubscription(request.endOfSubscription() != null ?
+                        request.endOfSubscription() : existing.getEndOfSubscription())
+                .visitsHall(request.visitsHall() != null ?
+                        request.visitsHall() : existing.getVisitsHall())
                 .build();
         storage.users.put(id,updateUser);
         userEventPublisher.publishUpdated(updateUser);

@@ -6,6 +6,11 @@ import com.example.Abonement_demo_rest.service.ButtonService;
 import com.example.Abonement_demo_rest.service.UserService;
 import com.netflix.graphql.dgs.*;
 
+import java.time.LocalDate;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+
 /**
  * DataFetcher для операций с user.
  *
@@ -17,6 +22,8 @@ import com.netflix.graphql.dgs.*;
  */
 @DgsComponent
 public class UserDataFetcher {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
+
     private final UserService userService;
 
 
@@ -52,12 +59,23 @@ public class UserDataFetcher {
         System.out.println(">>> input: " + input);
 
         try {
+            if (input.getFirstName() == null || input.getFirstName().isBlank()) {
+                throw new IllegalArgumentException("firstName обязателен");
+            }
+            if (input.getLastName() == null || input.getLastName().isBlank()) {
+                throw new IllegalArgumentException("lastName обязателен");
+            }
+            if (input.getNumberPhone() == null || input.getNumberPhone().isBlank()) {
+                throw new IllegalArgumentException("numberPhone обязателен");
+            }
+            LocalDate activationDate = parseDate(input.getSubscriptionActivation());
+            LocalDate endDate = parseDate(input.getEndOfSubscription());
             UserRequest request = new UserRequest(
                     input.getFirstName(),
                     input.getLastName(),
                     input.getEmail(),
-                    input.getSubscriptionActivation(),
-                    input.getEndOfSubscription(),
+                    activationDate,
+                    endDate,
                     input.getVisitsHall(),
                     input.getNumberPhone()
             );
@@ -74,12 +92,23 @@ public class UserDataFetcher {
     }
     @DgsMutation
     public UserResponse updateUser(@InputArgument String id, @InputArgument UpdateUserInputGql input){
+        if (input.getFirstName() == null || input.getFirstName().isBlank()) {
+            throw new IllegalArgumentException("firstName обязателен");
+        }
+        if (input.getLastName() == null || input.getLastName().isBlank()) {
+            throw new IllegalArgumentException("lastName обязателен");
+        }
+        if (input.getNumberPhone() == null || input.getNumberPhone().isBlank()) {
+            throw new IllegalArgumentException("numberPhone обязателен");
+        }
+        LocalDate activationDate = parseDate(input.getSubscriptionActivation());
+        LocalDate endDate = parseDate(input.getEndOfSubscription());
         UpdateUserRequest request = new UpdateUserRequest(
                 input.getFirstName(),
                 input.getLastName(),
                 input.getEmail(),
-                input.getSubscriptionActivation(),
-                input.getEndOfSubscription(),
+                activationDate,
+                endDate,
                 input.getVisitsHall(),
                 input.getNumberPhone()
         );
@@ -89,6 +118,23 @@ public class UserDataFetcher {
     public boolean deleteUser(@InputArgument String id){
         userService.delete(Long.parseLong(id));
         return true;
+    }
+
+
+    /**
+     * Парсит строку в LocalDate.
+     * Если строка null или пустая — возвращает null.
+     */
+    private LocalDate parseDate(String dateStr) {
+        if (dateStr == null || dateStr.isBlank()) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(dateStr, DATE_FORMATTER);
+        } catch (Exception e) {
+            System.err.println(">>> Ошибка парсинга даты: " + dateStr);
+            throw new IllegalArgumentException("Некорректный формат даты: " + dateStr + ". Ожидается формат yyyy-MM-dd");
+        }
     }
 
 

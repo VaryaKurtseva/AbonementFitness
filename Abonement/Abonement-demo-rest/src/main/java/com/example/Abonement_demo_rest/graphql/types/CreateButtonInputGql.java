@@ -15,6 +15,6 @@ public class CreateButtonInputGql {
     private String process;
     private Integer value;
     private Integer visitsHall;
-    private LocalDate subscriptionActivation;
-    private LocalDate endOfSubscription;
+    private String subscriptionActivation;
+    private String endOfSubscription;
 }
