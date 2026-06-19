@@ -3,7 +3,7 @@ package abonement.demo.events;
 import java.time.LocalDate;
 
 /**
- * Семейство событий, связанных с авторами.
+ * Семейство событий, связанных с пользователями.
  *
  * Аналогично ButtonEvent — sealed interface гарантирует полный перечень вариантов.
  * Десериализация по eventType, а не через Jackson-аннотации.

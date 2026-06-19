@@ -47,13 +47,13 @@ public class UserAnalyticsServiceImpl extends UserAnalyticsGrpc.UserAnalyticsImp
                 request.getEmail(),
                 request.getVisitsHall());
 
-        // ─── Вычисление метрик (демонстрационная логика) ─────────────
+        // Вычисление метрик (демонстрационная логика)
         int activityMinutes = estimateActivityTime(request.getVisitsHall());
         String fitnessLevel = classifyFitnessLevel(request.getVisitsHall());
         double score = calculateRecommendationScore(request.getVisitsHall());
         String subscriptionTier = classifySubscriptionTier(request.getVisitsHall());
 
-        // ─── Формируем ответ ─────────────────────────────────────────
+        // Формируем ответ
         UserAnalysisResponse response = UserAnalysisResponse.newBuilder()
                 .setUserId(request.getUserId())
                 .setEstimatedActivityMinutes(activityMinutes)
@@ -68,12 +68,9 @@ public class UserAnalyticsServiceImpl extends UserAnalyticsGrpc.UserAnalyticsImp
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
-    // ─── Демонстрационная бизнес-логика ──────────────────────────────
 
-    /**
-     * Оценка времени чтения на основе посещений.
-     * В реальном приложении — ML-модель или API внешнего сервиса.
-     */
+
+
     private int estimateActivityTime(Integer visitsHall) {
         if (visitsHall <= 0) return 0;
         return visitsHall * 60;  // каждый поход = 60 минут активности

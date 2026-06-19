@@ -80,6 +80,20 @@
 # Терминал 5 – notification-service (WebSocket push)
 .\mvnw spring-boot:run -pl notification-service -DskipTests
 
+# Swagger UI
+http://localhost:8088/swagger-ui.html
+
+# GraphQL Playground
+http://localhost:8088/graphiql
+
+# Аудит
+http://localhost:8081/api/audit
+
+# RabbitMQ
+http://localhost:15672
+
+ВЕБСОКЕТ
+http://localhost:8084/
 
 -->
 </project>

@@ -10,9 +10,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * Публикация доменных событий книг в RabbitMQ.
+ * Публикация доменных событий пользователя в RabbitMQ.
  *
- * Паттерн: BookService вызывает publish-метод ПОСЛЕ успешного завершения
+ * Паттерн: UserService вызывает publish-метод ПОСЛЕ успешного завершения
  * бизнес-операции. Если RabbitMQ недоступен — событие логируется как ошибка,
  * но основная операция (создание/удаление книги) НЕ откатывается.
  *
@@ -35,7 +35,7 @@ public class UserEventPublisher {
     }
 
     /**
-     * Публикует событие «книга создана».
+     * Публикует событие «пользователь создан».
      */
     public void publishCreated(UserResponse user) {
         var event = new UserEvent.Created(
@@ -52,7 +52,7 @@ public class UserEventPublisher {
     }
 
     /**
-     * Публикует событие «user обновлена».
+     * Публикует событие «user обновлен».
      */
     public void publishUpdated(UserResponse user) {
         var event = new UserEvent.Updated(
@@ -68,7 +68,7 @@ public class UserEventPublisher {
     }
 
     /**
-     * Публикует событие «user удалена».
+     * Публикует событие «user удален».
      */
     public void publishDeleted(Long id,
                                String firstName,
